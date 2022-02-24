@@ -1,0 +1,11 @@
+@import "common/all";
+
+main {
+    padding: 72px;
+    background-color: var(--main-bg);
+
+    .dark & {
+        background-color: var(--dark-main-bg);
+    }
+
+}

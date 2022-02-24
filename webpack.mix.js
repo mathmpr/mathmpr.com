@@ -1,5 +1,11 @@
 const mix = require('laravel-mix');
 
+mix.options({
+    fileLoaderDirs: {
+        fonts: './mathmpr.com/fonts'
+    },
+});
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -13,6 +19,6 @@ const mix = require('laravel-mix');
 
 mix.browserSync('127.0.0.1:8000');
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/css/frontend.scss', 'public/css')
-    .sass('resources/css/backend.scss', 'public/css');
+mix.js('resources/assets/js/app.js', 'public/js')
+    .sass('resources/assets/css/frontend.scss', 'public/css')
+    .sass('resources/assets/css/backend.scss', 'public/css');
