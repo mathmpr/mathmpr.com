@@ -1,0 +1,85 @@
+#header {
+    padding: 32px 0;
+    background-color: var(--header-bg);
+
+    .d-inline-block{
+        width: auto;
+    }
+
+    .dark & {
+        background-color: var(--dark-header-bg);
+    }
+
+    .logo {
+        font-family: 'Lexend Exa', sans-serif;
+        font-weight: 400;
+        display: flex;
+        margin-bottom: 0;
+        color: var(--header-color);
+        user-select: none;
+        cursor: pointer;
+
+        .dark & {
+            color: var(--dark-header-color);
+        }
+
+        span {
+            display: block;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        span:first-child {
+            font-size: 28px;
+            line-height: 28px;
+            margin-right: 8px;
+        }
+
+    }
+}
+
+#header nav ul {
+    text-align: right;
+    margin-bottom: 0;
+
+    li {
+        display: inline-block;
+        padding: 0 30px;
+
+        @media(max-width: 991px){
+            & {
+                padding: 0 10px;
+            }
+        }
+
+        a {
+            color: var(--header-color);
+            transition: 0.2s linear;
+            text-transform: uppercase;
+            font-weight: 400;
+            font-size: 14px;
+            display: inline-block;
+            padding-bottom: 10px;
+            position: relative;
+            letter-spacing: 0.1em;
+
+            &:before {
+                content: '';
+                position: absolute;
+                bottom: 6px;
+                left: 0;
+                height: 2px;
+                width: 15px;
+                background-color: var(--header-color);
+            }
+
+            .dark &:before {
+                background-color: var(--dark-header-color);
+            }
+
+            .dark & {
+                color: var(--dark-header-color);
+            }
+        }
+    }
+}
