@@ -1,6 +1,7 @@
 #header {
     padding: 52px 0;
     background-color: var(--header-bg);
+    user-select: none;
 
     .d-inline-block {
         width: auto;

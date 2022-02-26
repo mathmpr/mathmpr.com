@@ -25,7 +25,8 @@
                         <li><a href="#">Home</a></li>
                         <li><a href="#">Home</a></li>
                         <li>
-                            <i id="readable" class="fa-regular {{ isset($_COOKIE['skin']) && $_COOKIE['skin'] == 'dark' ? 'fa-sun' : 'fa-moon' }}"></i>
+                            <i id="readable"
+                               class="fa-regular {{ isset($_COOKIE['skin']) && $_COOKIE['skin'] == 'dark' ? 'fa-sun' : 'fa-moon' }}"></i>
                         </li>
                     </ul>
                 </nav>
@@ -36,15 +37,61 @@
 <main>
     <div class="container">
         <div class="row">
-            <div class="col-lg-6">k</div>
+            <div class="col-lg-6 prefer">
+                <img src="https://picsum.photos/800/800?e" alt="picsum">
+            </div>
             <div class="col-lg-6">
                 <div class="row">
-                    <div class="col-lg-6">a</div>
-                    <div class="col-lg-6">b</div>
-                    <div class="col-lg-6">c</div>
-                    <div class="col-lg-6">d</div>
+                    <div class="col-lg-6">
+                        <img src="https://picsum.photos/800/800?a" alt="picsum">
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="https://picsum.photos/800/800?b" alt="picsum">
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="https://picsum.photos/800/800?c" alt="picsum">
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="https://picsum.photos/800/800?d" alt="picsum">
+                    </div>
                 </div>
             </div>
+            <div class="col-lg-3">
+                <img src="https://picsum.photos/800/800?f" alt="picsum">
+            </div>
+            <div class="col-lg-3">
+                <img src="https://picsum.photos/800/800?g" alt="picsum">
+            </div>
+            <div class="col-lg-3">
+                <img src="https://picsum.photos/800/800?j" alt="picsum">
+            </div>
+            <div class="col-lg-3">
+                <img src="https://picsum.photos/800/800?k" alt="picsum">
+            </div>
+
+
+
+            <div class="col-lg-6 squares">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <img src="https://picsum.photos/800/800?ad" alt="picsum">
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="https://picsum.photos/800/800?bf" alt="picsum">
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="https://picsum.photos/800/800?cg" alt="picsum">
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="https://picsum.photos/800/800?dh" alt="picsum">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 prefer">
+                <img src="https://picsum.photos/800/800?ej" alt="picsum">
+            </div>
+
         </div>
     </div>
     <footer>
