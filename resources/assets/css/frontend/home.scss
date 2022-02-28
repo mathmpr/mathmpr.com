@@ -9,8 +9,72 @@ main {
         background-color: var(--dark-main-bg);
     }
 
+    & [class*="col-"] {
+        position: relative;
+    }
+
+    & [class*="col-"] [class*="col-"]:hover a, & .prefer:hover a, [class*="col-lg-3"]:hover a {
+        opacity: 1;
+    }
+
     img {
         width: 100%;
+
+        & + a {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            background-color: var(--card-bg);
+            width: calc(100% - (calc(calc(var(--bs-gutter-x) * 0.5) * 2)));
+            left: calc(var(--bs-gutter-x) * 0.5);
+            padding: 30px;
+            font-family: 'Playfair Display', sans-serif;
+            display: block;
+            color: var(--card-color);
+            transition: 0.2s linear;
+            opacity: 0;
+
+            &:hover {
+                color: var(--card-color);
+            }
+
+            h3 {
+                font-family: 'Playfair Display', sans-serif;
+                font-size: 2rem;
+                line-height: 1em;
+                max-width: 100%;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                display: -webkit-box;
+                text-overflow: ellipsis;
+                margin-bottom: 1.5em;
+                -webkit-line-clamp: 2;
+                height: calc(1em * 2);
+            }
+
+            em {
+                display: block;
+                position: absolute;
+                bottom: 30px;
+                width: 24px;
+                height: 14px;
+                background-repeat: no-repeat;
+                background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjE0cHgiIHZpZXdCb3g9IjAgMCAyNCAxNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjQgMTQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMjkyZjMzIiBkPSJNMCw3YzAsMC42LDAuNCwxLDEsMWgxOS42bC00LjMsNC4zYy0wLjQsMC40LTAuNCwxLDAsMS40czEsMC40LDEuNCwwbDYtNmMwLjEtMC4xLDAuMi0wLjIsMC4yLTAuM0MyNCw3LjMsMjQsNy4xLDI0LDdjMCwwLDAsMCwwLDBsMCwwYzAtMC4xLDAtMC4zLTAuMS0wLjRjMC0wLjEtMC4xLTAuMi0wLjItMC4zbC02LTZjLTAuNC0wLjQtMS0wLjQtMS40LDBjLTAuNCwwLjQtMC40LDEsMCwxLjRMMjAuNiw2SDFDMC40LDYsMCw2LjQsMCw3TDAsN3oiLz48L3N2Zz4=);
+                background-size: cover;
+            }
+        }
+    }
+
+    .prefer h3 {
+        font-size: 4.5rem;
+        -webkit-line-clamp: 4;
+        height: calc(1em * 4);
+        max-width: 80%;
+    }
+
+    .prefer a {
+        opacity: 1;
     }
 
     .container > .row .prefer {
@@ -45,5 +109,4 @@ main {
             margin-top: calc(calc(var(--bs-gutter-x) * 0.5) * 2);
         }
     }
-
 }

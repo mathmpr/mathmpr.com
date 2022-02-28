@@ -19,4 +19,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    document.querySelector('#header .search i ').addEventListener('click', (event) => {
+        event.target.closest('.search').classList.toggle('show');
+    });
+
+    let resizeCard = () => {
+        document.querySelectorAll('.home img + div').forEach((element) => {
+            if (!element.previousElementSibling.onload) {
+                element.previousElementSibling.onload = () => {
+                    element.previousElementSibling.loaded = true;
+                    element.style.height = element.previousElementSibling.height + 'px';
+                }
+            }
+            if (element.previousElementSibling.loaded) {
+                element.style.height = element.previousElementSibling.height + 'px';
+            }
+        });
+    };
+
+    resizeCard();
+
+    window.addEventListener('resize', () => {
+        resizeCard();
+    });
+
+
 });

@@ -4,6 +4,9 @@ mix.options({
     fileLoaderDirs: {
         fonts: './mathmpr.com/fonts'
     },
+    hmrOptions: {
+        port: 3001
+    }
 });
 
 /*
