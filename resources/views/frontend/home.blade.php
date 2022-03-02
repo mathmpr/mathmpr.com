@@ -1,60 +1,43 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/frontend.css">
-    <title>Laravel</title>
-</head>
+
+@section('head')
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/frontend.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/frontend/home.css">
+@endsection
+
+@include('frontend.common.head')
 <body class="{{ isset($_COOKIE['skin']) ? $_COOKIE['skin'] : '' }} antialiased">
-<div id="header">
-    <header class="container">
-        <div class="row">
-            <div class="d-inline-block">
-                <a href="/">
-                    <h1 class="logo">
-                        <span>π</span>
-                        <span>MATH<br>MPR</span>
-                    </h1>
-                </a>
-            </div>
-            <div class="col">
-                <nav>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Sobre</a></li>
-                        <li><a href="#">Currículo</a></li>
-                        <li><a href="#">Contato</a></li>
-                        <li>
-                            <i id="readable"
-                               class="fa-solid {{ isset($_COOKIE['skin']) && $_COOKIE['skin'] == 'dark' ? 'fa-sun' : 'fa-moon' }}"></i>
-                            <div class="search">
-                                <input type="text" name="search" placeholder="Procurar...">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
-</div>
+<template id="scripts">
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100;400;500;600;700&display=swap'>
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap'>
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'>
+    <script src="{{  URL::to('/') }}/js/app.min.js"></script>
+    <script src="{{  URL::to('/') }}/js/frontend/common/video.min.js"></script>
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/frontend/common/video-js.min.css">
+</template>
+@include('frontend.common.header')
 <main>
-    <div class="home container">
+    <div class="container home">
         <div class="row">
-            <div class="col-lg-6 prefer">
-                <img src="https://picsum.photos/800/800?e" alt="picsum">
-                <a href="#">
+            <div data-src="{{ env('APP_URL') }}/files/videos/let-it-happen.mp4" class="col-lg-6 prefer">
+                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?ad') }}" alt="picsum" width="800" height="800">
+                <a href="{{ \App\Utils\Lang::$lang }}/any">
                     <h3>We help brands connect with people</h3>
                     <p>Let's see why you need to go digital. We will study how to improve your perception and rebuild
                         your image.</p>
                     <em></em>
+                    <ul>
+                        <li>php</li>
+                        <li>laravel</li>
+                        <li>orm</li>
+                    </ul>
                 </a>
             </div>
             <div class="col-lg-6">
                 <div class="row">
                     <div class="col-lg-6">
-                        <img src="https://picsum.photos/800/800?a" alt="picsum">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?a') }}" alt="picsum" width="800" height="800">
                         <a href="#">
                             <h3>We help brands connect with people</h3>
                             <p>Let's see why you need to go digital. We will study how to improve your perception and
@@ -63,7 +46,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        <img src="https://picsum.photos/800/800?b" alt="picsum">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?b') }}" alt="picsum" width="800" height="800">
                         <a href="#">
                             <h3>We help brands connect with people</h3>
                             <p>Let's see why you need to go digital. We will study how to improve your perception and
@@ -72,7 +55,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        <img src="https://picsum.photos/800/800?c" alt="picsum">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?c') }}" alt="picsum" width="800" height="800">
                         <a href="#">
                             <h3>We help brands connect with people</h3>
                             <p>Let's see why you need to go digital. We will study how to improve your perception and
@@ -81,7 +64,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        <img src="https://picsum.photos/800/800?d" alt="picsum">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?d') }}" alt="picsum" width="800" height="800">
                         <a href="#">
                             <h3>We help brands connect with people</h3>
                             <p>Let's see why you need to go digital. We will study how to improve your perception and
@@ -92,7 +75,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <img src="https://picsum.photos/800/800?f" alt="picsum">
+                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?e') }}" alt="picsum" width="800" height="800">
                 <a href="#">
                     <h3>We help brands connect with people</h3>
                     <p>Let's see why you need to go digital. We will study how to improve your perception and rebuild
@@ -101,7 +84,7 @@
                 </a>
             </div>
             <div class="col-lg-3">
-                <img src="https://picsum.photos/800/800?g" alt="picsum">
+                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?f') }}" alt="picsum" width="800" height="800">
                 <a href="#">
                     <h3>We help brands connect with people</h3>
                     <p>Let's see why you need to go digital. We will study how to improve your perception and rebuild
@@ -110,7 +93,7 @@
                 </a>
             </div>
             <div class="col-lg-3">
-                <img src="https://picsum.photos/800/800?j" alt="picsum">
+                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?g') }}" alt="picsum" width="800" height="800">
                 <a href="#">
                     <h3>We help brands connect with people</h3>
                     <p>Let's see why you need to go digital. We will study how to improve your perception and rebuild
@@ -119,7 +102,7 @@
                 </a>
             </div>
             <div class="col-lg-3">
-                <img src="https://picsum.photos/800/800?k" alt="picsum">
+                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?h') }}" alt="picsum" width="800" height="800">
                 <a href="#">
                     <h3>We help brands connect with people</h3>
                     <p>Let's see why you need to go digital. We will study how to improve your perception and rebuild
@@ -132,7 +115,7 @@
             <div class="col-lg-6 squares">
                 <div class="row">
                     <div class="col-lg-6">
-                        <img src="https://picsum.photos/800/800?ad" alt="picsum">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?i') }}" alt="picsum" width="800" height="800">
                         <a href="#">
                             <h3>We help brands connect with people</h3>
                             <p>Let's see why you need to go digital. We will study how to improve your perception and
@@ -141,7 +124,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        <img src="https://picsum.photos/800/800?bf" alt="picsum">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?j') }}" alt="picsum" width="800" height="800">
                         <a href="#">
                             <h3>We help brands connect with people</h3>
                             <p>Let's see why you need to go digital. We will study how to improve your perception and
@@ -150,7 +133,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        <img src="https://picsum.photos/800/800?cg" alt="picsum">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?k') }}" alt="picsum" width="800" height="800">
                         <a href="#">
                             <h3>We help brands connect with people</h3>
                             <p>Let's see why you need to go digital. We will study how to improve your perception and
@@ -159,7 +142,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        <img src="https://picsum.photos/800/800?dh" alt="picsum">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?l') }}" alt="picsum" width="800" height="800">
                         <a href="#">
                             <h3>We help brands connect with people</h3>
                             <p>Let's see why you need to go digital. We will study how to improve your perception and
@@ -171,7 +154,7 @@
             </div>
 
             <div class="col-lg-6 prefer">
-                <img src="https://picsum.photos/800/800?ej" alt="picsum">
+                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?m') }}" alt="picsum" width="800" height="800">
                 <a href="#">
                     <h3>We help brands connect with people</h3>
                     <p>Let's see why you need to go digital. We will study how to improve your perception and rebuild
@@ -182,38 +165,7 @@
 
         </div>
     </div>
-    <footer>
-        <a href="/">
-            <h2 class="logo">
-                <span>π</span>
-                <span>MATH<br>MPR</span>
-            </h2>
-        </a>
-        <p>© 2022 Mathmpr. None of the rights reserved.</p>
-        <ul>
-            <li>
-                <a href="https://www.linkedin.com/in/mathmpr/" target="_blank">
-                    <i class="fa-brands fa-linkedin-in"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://github.com/mathmpr" target="_blank">
-                    <i class="fa-brands fa-github-alt"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://fb.com/mathmpr" target="_blank">
-                    <i class="fa-brands fa-facebook-f"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://instagram.com/mathmpr/" target="_blank">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-            </li>
-        </ul>
-    </footer>
+    @include('frontend.common.footer')
 </main>
-<script src="js/app.js"></script>
 </body>
 </html>

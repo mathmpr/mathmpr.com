@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Utils\Lang;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('frontend/home');
+    return redirect(Lang::$lang);
 });
+
+Route::prefix('{lang}')->group(function () {
+
+    Route::get('/', function () {
+        return view('frontend/home');
+    });
+
+    Route::get('/{slug}', function ($single) {
+        return view('frontend/single');
+    });
+
+});
+
+

@@ -1,0 +1,18 @@
+main {
+    padding: 72px 0;
+    background-color: var(--header-bg);
+    user-select: none;
+
+    .dark & {
+        background-color: var(--dark-header-bg);
+    }
+
+    & [class*="col-"] {
+        position: relative;
+    }
+
+    .container {
+
+
+    }
+}

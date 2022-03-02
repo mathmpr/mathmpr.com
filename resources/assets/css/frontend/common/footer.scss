@@ -43,7 +43,7 @@ footer {
 
     li a {
         color: var(--footer-color);
-        transition: 0.2s linear;
+        transition: 0.2s color linear;
 
         .dark & {
             color: var(--dark-footer-color)

@@ -24,4 +24,9 @@ mix.browserSync('127.0.0.1:8000');
 
 mix.js('resources/assets/js/app.js', 'public/js')
     .sass('resources/assets/css/frontend.scss', 'public/css')
+    .sass('resources/assets/css/frontend/home.scss', 'public/css/frontend/')
+    .sass('resources/assets/css/frontend/single.scss', 'public/css/frontend/')
+
     .sass('resources/assets/css/backend.scss', 'public/css');
+
+mix.minify('public/js/app.js');

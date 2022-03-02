@@ -1,5 +1,5 @@
 :root {
-    --dark-text-color: #fff;
+    --dark-text-color: #ccd6dd;
     --dark-hover-color: #ffeb32;
 
     --dark-header-bg: #333;
@@ -12,4 +12,6 @@
     --dark-footer-color: #66757f;
     --dark-footer-color-hover: #7a8d99;
 
+    --dark-card-bg: #00000085;
+    --dark-card-color: var(--dark-text-color);
 }
