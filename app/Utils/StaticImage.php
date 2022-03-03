@@ -29,7 +29,7 @@ class StaticImage
             $intervention->encode('webp')->save($file_path);
             $json[$url] = URL::to('/') . '/images/static/' . $file_name;
             file_put_contents($f_json, json_encode($json));
-            return $file_path;
+            return $json[$url];
         } else {
             return $json[$url];
         }

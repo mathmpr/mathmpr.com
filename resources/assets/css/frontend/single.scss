@@ -1,18 +1,146 @@
+:root {
+    --percent: 60%;
+    --percent-greater: 80%;
+    --greater-margin-bt: 4rem;
+}
+
+
+@media (max-width: 991px) {
+    :root {
+        --percent: 100%;
+        --percent-greater: 100%;
+        --greater-margin-bt: 4rem;
+    }
+}
+
 main {
     padding: 72px 0;
-    background-color: var(--header-bg);
-    user-select: none;
+    background-color: var(--article-bg);
 
     .dark & {
-        background-color: var(--dark-header-bg);
+        background-color: var(--dark-article-bg);
     }
 
     & [class*="col-"] {
         position: relative;
     }
 
-    .container {
+    .container article {
 
+
+        color: var(--article-color);
+
+        .dark & {
+            color: var(--dark-article-color);;
+        }
+
+        a {
+            color: var(--article-a-color);
+            transition: 0.2s color ease-in-out;
+            text-decoration: underline;
+
+            &:hover {
+                color: var(--article-a-hover-color);
+            }
+
+            .dark & {
+                color: var(--dark-article-a-color);;
+
+                &:hover {
+                    color: var(--dark-article-a-hover-color);
+                }
+            }
+
+        }
+
+        h1 {
+            font-family: "Playfair Display", sans-serif;
+            font-weight: 600;
+            font-size: 3.75rem;
+            margin: 0 auto;
+            max-width: var(--percent);
+            text-align: center;
+            letter-spacing: -1px;
+            line-height: 1.33em;
+            @media (max-width: 991px) {
+                font-size: 2.5rem;
+            }
+        }
+
+        img {
+            width: var(--percent-greater);
+            height: auto;
+            display: block;
+        }
+
+        > img {
+            margin: var(--greater-margin-bt) auto;
+        }
+
+        > div {
+            width: var(--percent);
+            margin: auto;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 2em;
+            margin-bottom: 1.5em;
+            @media (max-width: 991px) {
+                font-size: 1rem;
+            }
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        cite {
+            margin: var(--greater-margin-bt) auto;
+            display: block;
+            width: var(--percent-greater);
+            text-align: center;
+            font-size: 2.5rem;
+            line-height: 1.5em;
+            font-family: "Playfair Display", sans-serif;
+            @media (max-width: 991px) {
+                font-size: 1.5rem;
+            }
+        }
+
+        .after_head {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            margin: var(--greater-margin-bt) auto;
+
+            span {
+                position: relative;
+                z-index: 3;
+                padding: 0 50px;
+                background-color: var(--article-bg);
+                font-style: italic;
+
+                .dark & {
+                    background-color: var(--dark-article-bg);
+                }
+            }
+
+            &:after {
+                content: ' ';
+                position: absolute;
+                width: 100%;
+                height: 1px;
+                background: #e1e8ed;
+                z-index: 2;
+                top: 0;
+                bottom: 0;
+                display: block;
+                margin: auto;
+            }
+
+
+        }
 
     }
 }

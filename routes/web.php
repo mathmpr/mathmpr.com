@@ -21,11 +21,11 @@ Route::get('/', function () {
 Route::prefix('{lang}')->group(function () {
 
     Route::get('/', function () {
-        return view('frontend/home');
+        return post_view(view('frontend/home'));
     });
 
     Route::get('/{slug}', function ($single) {
-        return view('frontend/single');
+        return post_view(view('frontend/single'));
     });
 
 });

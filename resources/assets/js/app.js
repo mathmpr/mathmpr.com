@@ -37,6 +37,12 @@ let domReady = () => {
 
     document.querySelector('#header .col span:last-child').addEventListener('click', (event) => {
         event.target.previousElementSibling.classList.toggle('show');
+        if (event.target.previousElementSibling.classList.contains('show')) {
+            document.querySelector('main').style.position = 'fixed';
+            document.querySelector('main').style.width = '100%';
+        } else {
+            document.querySelector('main').style.position = 'relative';
+        }
     });
 
     let resizeCard = () => {
