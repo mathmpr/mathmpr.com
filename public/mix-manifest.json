@@ -4,5 +4,9 @@
     "/css/frontend/single.css": "/css/frontend/single.css",
     "/css/frontend/home.css": "/css/frontend/home.css",
     "/css/frontend.css": "/css/frontend.css",
+    "/images/dark-preload.png": "/images/dark-preload.png",
+    "/images/favicon.png": "/images/favicon.png",
+    "/images/mathmpr.jpg": "/images/mathmpr.jpg",
+    "/images/preload.png": "/images/preload.png",
     "/js/app.min.js": "/js/app.min.js"
 }

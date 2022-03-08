@@ -87,6 +87,55 @@
                     </div>
                 </div>
             </div>
+            <div class="author">
+                <div class="image-wrapper">
+                    <img src="./images/mathmpr.jpg" alt="Matheus Prado"/>
+                </div>
+                <div class="row about">
+                    <div class="col-lg-6">
+                        <h3>Matheus Prado Rodrigues</h3>
+                        <p>
+                            Matheus is an avid thinker, blogger, creative learner, frequent traveller and coffee hater. She blogs, when not designing, at nicole.me
+                        </p>
+                        <ul>
+                            <li>
+                                <a href="https://www.linkedin.com/in/mathmpr/" target="_blank">
+                                    <i class="fa-brands fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/mathmpr" target="_blank">
+                                    <i class="fa-brands fa-github-alt"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://fb.com/mathmpr" target="_blank">
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://instagram.com/mathmpr/" target="_blank">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <h3>Outros nós do autor</h3>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?e') }}" alt="picsum" width="800" height="800">
+                            </div>
+                            <div class="col-lg-4">
+                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?f') }}" alt="picsum" width="800" height="800">
+                            </div>
+                            <div class="col-lg-4">
+                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?j') }}" alt="picsum" width="800" height="800">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     @include('frontend.common.footer')
