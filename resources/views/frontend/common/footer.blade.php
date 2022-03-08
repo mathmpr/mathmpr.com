@@ -52,6 +52,7 @@
             if (scripts) {
                 scripts.content.querySelectorAll('*').forEach((el) => {
                     let clone = el.cloneNode(true);
+                    if(clone.classList.contains('on-ready')) return;
                     clone.time = 0;
                     clone.onload = () => {
                         clone.loaded = true;

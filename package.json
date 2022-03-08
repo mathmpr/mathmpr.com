@@ -19,5 +19,8 @@
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.49.8",
         "sass-loader": "^12.1.0"
+    },
+    "dependencies": {
+        "owl.carousel": "^2.3.4"
     }
 }

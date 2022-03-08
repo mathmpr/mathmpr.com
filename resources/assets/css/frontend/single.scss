@@ -14,7 +14,7 @@
 }
 
 main {
-    padding: 72px 0;
+    padding: 72px 0 0;
     background-color: var(--article-bg);
 
     .dark & {
@@ -139,7 +139,78 @@ main {
                 margin: auto;
             }
 
+            .dark &:after {
+                background: #e1e8ed30;
+            }
+        }
+    }
 
+    .container .article-end {
+
+        max-width: var(--percent);
+        margin: 50px auto 0;
+        border-top: 1px solid #e1e8ed;
+        padding-top: 30px;
+
+        color: var(--article-color);
+
+        .dark & {
+            color: var(--dark-article-color);;
+            border-top: 1px solid #e1e8ed30;
+        }
+
+        .similar img {
+            width: 100%;
+            height: auto;
+        }
+
+        .similar .owl-carousel {
+            position: relative;
+            z-index: 5;
+        }
+
+        .similar .owl-nav {
+            display: block;
+        }
+
+        .similar .owl-prev, .similar .owl-next {
+            position: absolute;
+            display: block;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            height: 20px;
+            width: 64px;
+            z-index: 5;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjY0cHgiIGhlaWdodD0iMjBweCIgdmlld0JveD0iMCAwIDY0IDIwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA2NCAyMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHBvbHlnb24gcG9pbnRzPSI5LjEsMCAxMC42LDEuNSAzLjQsOSA2NCw5IDY0LDExIDMuNCwxMSAxMC43LDE4LjUgOS4xLDIwIDAsMTAuNyAwLDkuMyAiIHN0eWxlPSJmaWxsOiMyOTJmMzMiLz4NCjwvc3ZnPg==);
+            background-repeat: no-repeat;
+            transition: transform 0.2s ease-in-out;
+            transform: translateX(-20px);
+
+            & span {
+                display: none;
+            }
+        }
+
+        .similar .owl-prev {
+            &:hover {
+                transform: translateX(-30px);
+            }
+        }
+
+        .similar .owl-next {
+            right: 0;
+            transform: translateX(20px) rotate(180deg);
+            &:hover {
+                transform: translateX(30px) rotate(180deg);
+            }
+        }
+
+        h3 {
+            font-family: "Playfair Display", sans-serif;
+            font-size: 1.5rem;
+            line-height: 2em;
+            margin: 25px 0;
         }
 
     }

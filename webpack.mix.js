@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const webpack = require('webpack');
 
 mix.options({
     fileLoaderDirs: {
@@ -6,7 +7,8 @@ mix.options({
     },
     hmrOptions: {
         port: 3001
-    }
+    },
+
 });
 
 /*
@@ -26,7 +28,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
     .sass('resources/assets/css/frontend.scss', 'public/css')
     .sass('resources/assets/css/frontend/home.scss', 'public/css/frontend/')
     .sass('resources/assets/css/frontend/single.scss', 'public/css/frontend/')
-
     .sass('resources/assets/css/backend.scss', 'public/css');
 
 mix.minify('public/js/app.js');

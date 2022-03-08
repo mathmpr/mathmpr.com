@@ -1,5 +1,8 @@
 require('./bootstrap');
 window.Cookies = require('./cookie');
+window.jQuery = require('jquery');
+window.$ = window.jQuery;
+require('owl.carousel');
 
 makeid = (length) => {
     length = length || 8;
@@ -14,6 +17,16 @@ makeid = (length) => {
 }
 
 let domReady = () => {
+
+    let scripts = document.querySelector('#scripts');
+    if (scripts) {
+        scripts.content.querySelectorAll('*').forEach((el) => {
+            let clone = el.cloneNode(true);
+            if(clone.classList.contains('on-ready')) {
+                document.head.appendChild(clone);
+            }
+        });
+    }
 
     document.querySelector('#readable').addEventListener('click', (event) => {
         if (event.target.classList.contains('fa-moon')) {
