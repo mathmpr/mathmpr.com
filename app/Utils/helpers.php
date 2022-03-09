@@ -16,8 +16,10 @@ use App\Utils\Lang;
 function post_view($view)
 {
     $dom = new DOMDocument();
+    $render = $view->render();
+    if(empty($render)) return $view;
     try {
-        $dom->loadHTML($view->render(), LIBXML_NOERROR);
+        $dom->loadHTML($render, LIBXML_NOERROR);
     } catch (\Exception $e) {
         return $view;
     }

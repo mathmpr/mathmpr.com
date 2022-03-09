@@ -1,23 +1,13 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('frontend.dom')
+
+@section('title') Single @endsection
 
 @section('head')
     <link rel="stylesheet" href="css/frontend.css">
     <link rel="stylesheet" href="css/frontend/single.css">
 @endsection
 
-@include('frontend.common.head')
-<body class="{{ isset($_COOKIE['skin']) ? $_COOKIE['skin'] : '' }} antialiased">
-<template id="scripts">
-    <link rel="stylesheet"
-          href='https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100;400;500;600;700&display=swap'>
-    <link rel="stylesheet"
-          href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap'>
-    <link rel="stylesheet"
-          href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'>
-    <script src="js/app.min.js"></script>
-    <script src="js/frontend/common/video.min.js"></script>
-    <link rel="stylesheet" href="css/frontend/common/video-js.min.css">
+@section('scripts')
     <script class="on-ready">
         $('.owl-carousel').owlCarousel({
             items: 2,
@@ -25,9 +15,9 @@
             loop: true
         });
     </script>
-</template>
-@include('frontend.common.header')
-<main>
+@endsection
+
+@section('main')
     <div class="container">
         <article>
             <h1>Putting Mobile Backend as a Service into Practice</h1>
@@ -77,13 +67,16 @@
                 <h3>Similar Nodes</h3>
                 <div class="owl-carousel">
                     <div class="item">
-                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?c') }}" alt="picsum" width="800" height="800">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?c') }}"
+                             alt="picsum" width="800" height="800">
                     </div>
                     <div class="item">
-                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?a') }}" alt="picsum" width="800" height="800">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?a') }}"
+                             alt="picsum" width="800" height="800">
                     </div>
                     <div class="item">
-                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?d') }}" alt="picsum" width="800" height="800">
+                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?d') }}"
+                             alt="picsum" width="800" height="800">
                     </div>
                 </div>
             </div>
@@ -95,7 +88,8 @@
                     <div class="col-lg-6">
                         <h3>Matheus Prado Rodrigues</h3>
                         <p>
-                            Matheus is an avid thinker, blogger, creative learner, frequent traveller and coffee hater. She blogs, when not designing, at nicole.me
+                            Matheus is an avid thinker, blogger, creative learner, frequent traveller and coffee hater.
+                            She blogs, when not designing, at nicole.me
                         </p>
                         <ul>
                             <li>
@@ -124,13 +118,16 @@
                         <h3>Outros nós do autor</h3>
                         <div class="row">
                             <div class="col-lg-4">
-                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?e') }}" alt="picsum" width="800" height="800">
+                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?e') }}"
+                                     alt="picsum" width="800" height="800">
                             </div>
                             <div class="col-lg-4">
-                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?f') }}" alt="picsum" width="800" height="800">
+                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?f') }}"
+                                     alt="picsum" width="800" height="800">
                             </div>
                             <div class="col-lg-4">
-                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?j') }}" alt="picsum" width="800" height="800">
+                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?j') }}"
+                                     alt="picsum" width="800" height="800">
                             </div>
                         </div>
                     </div>
@@ -138,7 +135,4 @@
             </div>
         </div>
     </div>
-    @include('frontend.common.footer')
-</main>
-</body>
-</html>
+@endsection

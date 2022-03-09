@@ -1,12 +1,16 @@
 {
-    "/js/app.js": "/js/app.js",
+    "/js/frontend/app.js": "/js/frontend/app.js",
+    "/js/backend/app.js": "/js/backend/app.js",
+    "/css/backend/dashboard.css": "/css/backend/dashboard.css",
     "/css/backend.css": "/css/backend.css",
     "/css/frontend/single.css": "/css/frontend/single.css",
     "/css/frontend/home.css": "/css/frontend/home.css",
     "/css/frontend.css": "/css/frontend.css",
+    "/css/backend/login.css": "/css/backend/login.css",
     "/images/dark-preload.png": "/images/dark-preload.png",
     "/images/favicon.png": "/images/favicon.png",
     "/images/mathmpr.jpg": "/images/mathmpr.jpg",
     "/images/preload.png": "/images/preload.png",
-    "/js/app.min.js": "/js/app.min.js"
+    "/js/frontend/app.min.js": "/js/frontend/app.min.js",
+    "/js/backend/app.min.js": "/js/backend/app.min.js"
 }

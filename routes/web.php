@@ -20,6 +20,10 @@ Route::get('/', function () {
 
 Route::prefix('{lang}')->group(function () {
 
+    Route::get('/admin', function () {
+        return post_view(view('backend/dashboard'));
+    });
+
     Route::get('/', function () {
         return post_view(view('frontend/home'));
     });

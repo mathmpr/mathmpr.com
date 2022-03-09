@@ -1,5 +1,5 @@
-require('./bootstrap');
-window.Cookies = require('./cookie');
+require('../bootstrap');
+window.Cookies = require('../cookie');
 window.jQuery = require('jquery');
 window.$ = window.jQuery;
 require('owl.carousel');

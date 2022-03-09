@@ -242,6 +242,8 @@ main {
 
             .about {
 
+                margin-bottom: 100px;
+
                 ul {
                     margin-top: 10px;
                     position: relative;
@@ -277,5 +279,11 @@ main {
                 }
             }
         }
+    }
+}
+
+footer {
+    .dark & {
+        background-color: var(--dark-main-bg);
     }
 }

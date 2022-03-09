@@ -1,0 +1,15 @@
+@media (min-width: 1200px) {
+    :root {
+        --fs: 15px;
+    }
+}
+
+@import "header", "footer";
+
+body, html, a {
+    font-family: 'Roboto', sans-serif;
+    font-size: var(--fs);
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+}
