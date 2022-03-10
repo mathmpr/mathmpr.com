@@ -1,3 +1,197 @@
-ul {
-    background: red;
+header {
+    position: fixed;
+    background-color: var(--header-bg-color);
+    font-size: 0.8rem;
+
+    ul, nav {
+        margin: 0;
+    }
+
+    > span:last-child {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        right: -20px;
+        border-radius: 3px;
+        background-color: var(--primary-bg);
+        bottom: 60px;
+        line-height: 40px;
+        text-align: center;
+        color: #ffffff;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+
+        &:after {
+            font-family: 'Font Awesome 6 Free', sans-serif;
+            content: '\f105';
+            font-weight: 700;
+        }
+    }
+
+    nav:first-child a {
+        color: var(--text-color);
+        display: inline-block;
+        padding: 20px;
+
+        &:hover {
+            color: var(--text-color);
+        }
+    }
+
+    .logo {
+        color: var(--text-color);
+        font-size: 12px;
+
+        span:first-child {
+            margin-right: 0;
+        }
+    }
+
+    height: 100%;
+    width: 100px;
+    text-align: center;
+    padding: 10px;
+    transition: width 0.2s ease-in-out;
+
+    .main {
+        width: 0;
+        visibility: hidden;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        transform: translateX(90px);
+        min-height: 100%;
+        background-color: var(--header-bg-color);
+        text-align: left;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, width 0.2s ease-in-out;
+
+        ul:first-child {
+            min-height: 100%;
+            width: 40px;
+            position: absolute;
+            display: none;
+            text-align: center;
+
+            a {
+                color: var(--text-color);
+                padding: 20px;
+                display: block;
+
+                &:hover {
+                    color: var(--text-color);
+                }
+            }
+        }
+
+        ul:first-child + ul {
+            padding: 34px 0;
+            border-left: 1px solid #fbfbfb;
+            height: 100%;
+            position: absolute;
+
+            li:not(:first-child) {
+                margin-top: 10px;
+            }
+
+            li a {
+                padding: 5px 15px;
+            }
+        }
+    }
+
+    nav:first-child {
+        width: 80px;
+        display: block;
+    }
+
+    &.open {
+
+        overflow: initial;
+        width: 360px;
+
+        .main {
+            width: 260px;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        > span:last-child {
+            transform: rotate(180deg);
+        }
+
+    }
+
+    @media(max-width: 991px) {
+        & {
+            height: 65px;
+            width: 100%;
+
+            nav:first-child a {
+                padding: 10px;
+            }
+
+            nav:first-child {
+                width: 40px;
+            }
+
+            .main {
+                transform: translateX(-10px);
+                position: fixed;
+            }
+
+            .main ul:first-child {
+                display: block;
+            }
+
+            .main ul:first-child + ul {
+                padding: 27px 0;
+                position: absolute;
+                left: 55px;
+                width: calc(100% - 55px);
+            }
+
+        }
+
+        &.open {
+
+            overflow: initial;
+            height: 65px;
+            width: 100%;
+
+            .main {
+                width: 300px;
+                visibility: visible;
+                opacity: 1;
+            }
+
+            > span:last-child {
+                transform: rotate(0deg);
+            }
+
+            > span:last-child:after {
+                content: '\f00d';
+            }
+
+        }
+
+        & > span:last-child {
+
+            width: 40px;
+            height: 40px;
+            right: 10px;
+            margin: auto 0;
+            top: 0;
+            bottom: 0;
+            display: block;
+            background-color: transparent;
+            color: var(--text-color);
+
+            &:after {
+                content: '\f0c9';
+            }
+        }
+
+    }
 }

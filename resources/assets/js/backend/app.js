@@ -17,7 +17,11 @@ makeid = (length) => {
 }
 
 let domReady = () => {
-    console.log('ready');
+
+    document.querySelector('header span.toggle').addEventListener('click', () => {
+        document.querySelector('header').classList.toggle('open');
+    });
+
 }
 
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
