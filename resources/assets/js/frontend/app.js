@@ -4,29 +4,7 @@ window.jQuery = require('jquery');
 window.$ = window.jQuery;
 require('owl.carousel');
 
-makeid = (length) => {
-    length = length || 8;
-    let result = '';
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() *
-            charactersLength));
-    }
-    return result;
-}
-
 let domReady = () => {
-
-    let scripts = document.querySelector('#scripts');
-    if (scripts) {
-        scripts.content.querySelectorAll('*').forEach((el) => {
-            let clone = el.cloneNode(true);
-            if(clone.classList.contains('on-ready')) {
-                document.head.appendChild(clone);
-            }
-        });
-    }
 
     document.querySelector('#readable').addEventListener('click', (event) => {
         if (event.target.classList.contains('fa-moon')) {

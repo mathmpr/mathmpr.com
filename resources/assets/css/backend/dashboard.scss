@@ -1,0 +1,54 @@
+:root {
+    --main-padding: 40px;
+}
+
+@media (max-width: 991px) {
+    :root {
+        --main-padding: 10px;
+    }
+}
+
+main {
+    /*
+    padding-left: var(--main-padding);
+    padding-right: var(--main-padding);
+    */
+}
+
+#mathmpr-editor ul {
+    margin: 0;
+}
+
+#mathmpr-editor {
+    width: 100%;
+    border-radius: 5px;
+    padding: 15px 20px;
+    background: #fff;
+    margin-top: 30px;
+
+    .module-selector {
+
+        text-align: center;
+        user-select: none;
+        border-bottom: 1px solid var(--lines);
+        margin: -15px -20px 0 -20px;
+        border-spacing: 0;
+        font-size: 0;
+        position: relative;
+
+        li {
+            display: inline-block;
+            font-size: 24px;
+            line-height: 48px;
+            border-left: 1px solid var(--lines);
+            border-right: 1px solid var(--lines);
+            position: relative;
+            padding: 10px 20px;
+            cursor: pointer;
+            min-width: 72px;
+
+
+        }
+    }
+}
+

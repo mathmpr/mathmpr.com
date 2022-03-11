@@ -43,5 +43,13 @@ function post_view($view)
             }
         }
     }
+
+    $xpath = (new DOMXPath($dom))->query((new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style'));
+    while ($xpath->length){
+        foreach ($xpath as $item) {
+            $item->parentNode->removeChild($item);
+        }
+        $xpath = (new DOMXPath($dom))->query((new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style'));
+    }
     return $dom->saveHTML();
 }

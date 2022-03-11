@@ -2,7 +2,8 @@ require('../bootstrap');
 window.Cookies = require('../cookie');
 window.jQuery = require('jquery');
 window.$ = window.jQuery;
-require('owl.carousel');
+require('jquery-ui/ui/widgets/draggable');
+require('jquery-ui/ui/widgets/droppable');
 
 makeid = (length) => {
     length = length || 8;

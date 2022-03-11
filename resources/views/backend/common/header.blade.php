@@ -22,7 +22,10 @@
         </ul>
         <ul>
             <li>
-                <a href="#">Lorem</a>
+                <a href="#">
+                    <i class="fa-solid fa-bookmark"></i>
+                    Lorem
+                </a>
             </li>
             <li>
                 <a href="#">Ipsum</a>
