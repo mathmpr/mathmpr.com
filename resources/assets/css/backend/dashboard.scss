@@ -1,3 +1,7 @@
+@import "~codemirror/lib/codemirror.css";
+@import "~codemirror/theme/night.css";
+@import "~cropperjs/dist/cropper.min.css";
+
 :root {
     --main-padding: 40px;
 }
@@ -19,36 +23,156 @@ main {
     margin: 0;
 }
 
+body > .block li[data-module], .overflow .block li[data-module] {
+    font-size: 24px;
+    line-height: 48px;
+    border: 1px solid var(--lines);
+    position: relative;
+    min-width: 72px;
+    left: -1px;
+    padding: 10px 20px;
+    cursor: grab;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.codex-editor__redactor {
+    padding-bottom: 30px !important;
+}
+
 #mathmpr-editor {
     width: 100%;
+    height: calc(100vh - 60px);
     border-radius: 5px;
     padding: 15px 20px;
     background: #fff;
     margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+    vertical-align: middle;
 
     .module-selector {
 
+        height: 100%;
+        width: 72px;
         text-align: center;
         user-select: none;
-        border-bottom: 1px solid var(--lines);
-        margin: -15px -20px 0 -20px;
+        border-right: 1px solid var(--lines);
+        top: 0;
+        left: 0;
         border-spacing: 0;
         font-size: 0;
-        position: relative;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
 
         li {
-            display: inline-block;
+            display: block;
             font-size: 24px;
             line-height: 48px;
-            border-left: 1px solid var(--lines);
-            border-right: 1px solid var(--lines);
             position: relative;
-            padding: 10px 20px;
-            cursor: pointer;
             min-width: 72px;
+            left: -1px;
+            padding: 10px 20px;
+            cursor: all-scroll;
 
+            &:first-child {
+                border-left: 0;
+                left: 0;
+            }
 
+            &:last-child {
+                border-right: 0;
+                left: -2px;
+            }
         }
     }
+
+    .overflow {
+        min-height: 100%;
+        max-height: 100%;
+        position: relative;
+        left: 52px;
+        width: calc(100% - 15px);
+        padding: 20px;
+        padding-right: 40px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        .block + .block, .block-placeholder + .block {
+            margin-top: 15px;
+        }
+
+        .block {
+
+            padding: 0;
+            transition: padding 0.1s ease-in-out;
+
+            &:not(.dragging) {
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            position: relative;
+
+            .controls li {
+                width: 50px;
+                padding: 10px 5px;
+                text-align: center;
+                margin-bottom: 15px;
+                border-radius: 5px;
+                display: inline-block;
+                cursor: pointer;
+
+                &:not(:first-child) {
+                    margin-left: 10px;
+                }
+
+                &.sort {
+                    background-color: #e9ecef;
+                    cursor: all-scroll;
+
+                    i {
+                        transform: rotate(90deg);
+                    }
+                }
+
+                &.delete {
+                    background-color: #e9ecef;
+
+                    i {
+                        transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+                    }
+                }
+
+                &.delete.really-delete {
+                    background-color: #dc3545;
+                    color: #fff;
+
+                    i {
+                        transform: rotate(90deg);
+                    }
+                }
+
+
+            }
+
+            &.sorting {
+                border: 1px dashed var(--lines);
+                width: calc(100% - 60px) !important;
+                padding: 15px;
+            }
+
+        }
+
+    }
+
+    .CodeMirror-wrap {
+        border-radius: 5px;
+    }
+
+
 }
 

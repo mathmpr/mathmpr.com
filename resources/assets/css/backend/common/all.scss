@@ -13,9 +13,9 @@
     }
 }
 
-@import "header", "footer";
+@import "media-library", "header", "footer";
 
-body{
+body {
     background-color: var(--body-bg-color);
 }
 

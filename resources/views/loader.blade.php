@@ -1,6 +1,92 @@
 <script>
 
-    makeid = (length) => {
+    let empty = (param) => {
+        return !param || (param instanceof Array && param.length === 0) || (param === '');
+    }
+
+    let is_string = (param) => {
+        return typeof param === 'string';
+    }
+
+    let is_number = (param) => {
+        return !isNaN(param);
+    }
+
+    let is_int = (param) => {
+        return typeof param === 'number' && (parseInt(param) + '') === (param + '');
+    }
+
+    let is_float = (param) => {
+        return typeof param === 'number' && (parseInt(param) + '') === (param + '');
+    }
+
+    let is_array = (param) => {
+        return param instanceof Array;
+    }
+
+    let is_object = (param) => {
+        return typeof param === 'object' && param;
+    }
+
+    let is_callable = (param) => {
+        return typeof param === 'function';
+    }
+
+    let capitalize = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    let camelize = (str) => {
+        return str.replace(/[^a-z0-9]/gi, ' ').split(' ').map((value, index) => {
+            return index > 0 ? capitalize(value) : value;
+        }).join('');
+    }
+
+    let upper_camelize = (str) => {
+        return capitalize(camelize(str));
+    }
+
+    let clone = (obj, hash = new WeakMap()) => {
+        if (Object(obj) !== obj || obj instanceof Function) return obj;
+        if (hash.has(obj)) return hash.get(obj);
+        let result;
+        try {
+            result = new obj.constructor();
+        } catch (e) {
+            result = Object.create(Object.getPrototypeOf(obj));
+        }
+
+        if (obj instanceof Map)
+            Array.from(obj, ([key, val]) => result.set(clone(key, hash),
+                clone(val, hash)));
+        else if (obj instanceof Set)
+            Array.from(obj, (key) => result.add(clone(key, hash)));
+
+        hash.set(obj, result);
+
+        return Object.assign(result, ...Object.keys(obj).map(
+            key => ({[key]: clone(obj[key], hash)})));
+    }
+
+    let getCoords = (elem) => {
+        let box = elem.getBoundingClientRect();
+
+        let body = document.body;
+        let docEl = document.documentElement;
+
+        let scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+        let scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+        let clientTop = docEl.clientTop || body.clientTop || 0;
+        let clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+        let top = box.top + scrollTop - clientTop;
+        let left = box.left + scrollLeft - clientLeft;
+
+        return {top: Math.round(top), left: Math.round(left)};
+    }
+
+    let makeid = (length) => {
         length = length || 8;
         let result = '';
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -10,6 +96,17 @@
                 charactersLength));
         }
         return result;
+    }
+
+    if (!String.prototype.format) {
+        String.prototype.format = function () {
+            let args = arguments;
+            return this.replace(/{(\d+)}/g, function (match, number) {
+                return typeof args[number] != 'undefined'
+                    ? args[number]
+                    : match;
+            });
+        };
     }
 
     (() => {
@@ -75,7 +172,7 @@
             if (scripts) {
                 scripts.content.querySelectorAll('*').forEach((el) => {
                     let clone = el.cloneNode(true);
-                    if (clone.classList.contains('on-ready')) return;
+                    if (clone.classList.contains('on-ready') || clone.classList.contains('app')) return;
                     clone.time = 0;
                     if (clone.href || clone.src) {
                         clone.onload = () => {

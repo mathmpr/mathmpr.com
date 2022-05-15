@@ -9,6 +9,7 @@
     @yield('scripts')
 </template>
 @yield('scripts')
+@yield('modals')
 @include('backend.common.header')
 <main>
     @yield('main')

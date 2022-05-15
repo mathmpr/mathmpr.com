@@ -44,12 +44,12 @@ function post_view($view)
         }
     }
 
-    $xpath = (new DOMXPath($dom))->query((new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style'));
+    $xpath = (new DOMXPath($dom))->query((new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style, #scripts + link'));
     while ($xpath->length){
         foreach ($xpath as $item) {
             $item->parentNode->removeChild($item);
         }
-        $xpath = (new DOMXPath($dom))->query((new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style'));
+        $xpath = (new DOMXPath($dom))->query((new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style, #scripts + link'));
     }
     return $dom->saveHTML();
 }

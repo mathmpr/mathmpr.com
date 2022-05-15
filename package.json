@@ -13,6 +13,7 @@
         "axios": "^0.25",
         "browser-sync": "^2.27.7",
         "browser-sync-webpack-plugin": "^2.3.0",
+        "htmlhint": "^1.1.2",
         "jquery-ui": "^1.13.1",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
@@ -22,6 +23,21 @@
         "sass-loader": "^12.1.0"
     },
     "dependencies": {
-        "owl.carousel": "^2.3.4"
+        "@editorjs/delimiter": "^1.2.0",
+        "@editorjs/editorjs": "^2.23.2",
+        "@editorjs/header": "^2.6.2",
+        "@editorjs/image": "^2.6.2",
+        "@editorjs/link": "^2.4.0",
+        "@editorjs/list": "^1.7.0",
+        "@editorjs/quote": "^2.4.0",
+        "@editorjs/table": "^2.0.1",
+        "@editorjs/underline": "^1.0.0",
+        "bootstrap": "^5.1.3",
+        "codemirror": "^5.65.2",
+        "cropperjs": "^1.5.12",
+        "jshint": "^2.13.4",
+        "mime-db": "^1.52.0",
+        "owl.carousel": "^2.3.4",
+        "php-parser": "^3.1.0-beta.4"
     }
 }

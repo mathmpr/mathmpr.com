@@ -12,6 +12,7 @@
     @yield('scripts')
 </template>
 @yield('scripts')
+@yield('modals')
 @include('frontend.common.header')
 <main>
     @yield('main')

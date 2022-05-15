@@ -1,0 +1,235 @@
+#media-library {
+
+    .nav-link {
+        border: 1px solid var(--primary-bg);
+        color: var(--primary-bg);
+
+        &.active {
+            color: #fff;
+            background-color: var(--primary-bg);
+        }
+    }
+
+    .nav-item {
+        &:not(:first-child) {
+            margin-left: 10px;
+        }
+    }
+
+    #tab-content {
+        padding-top: 15px;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-bg);
+        border: 1px solid var(--primary-bg);
+    }
+
+    .cropper-wrapper {
+
+        display: flex;
+        flex-wrap: wrap;
+
+        .cropper-information {
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+
+        .cropper {
+            max-width: 800px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            border: 1px dashed var(--lines);
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            position: relative;
+
+            &:after, &:before {
+                height: 1px;
+                width: 100%;
+                content: ' ';
+                display: block;
+                margin: auto;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                position: absolute;
+                z-index: 5;
+            }
+
+            &:before {
+                border-bottom: 1px dashed var(--lines);
+            }
+
+            &:after {
+                height: 100%;
+                width: 1px;
+                border-left: 1px dashed var(--lines);
+            }
+
+            img {
+                border: 1px solid;
+            }
+
+            img.width {
+                width: 100%;
+                height: auto;
+            }
+
+            img.height {
+                height: 100%;
+                width: auto;
+            }
+        }
+    }
+
+    [aria-labelledby="upload-tab"] {
+
+        .results {
+            display: flex;
+            margin: 0 -7px;
+            padding-top: 10px;
+
+            .item {
+                flex: 0 0 calc(16.6% - 14px);
+                max-width: calc(16.6% - 14px);
+                margin: 7px;
+                position: relative;
+
+                .wrapper {
+                    position: relative;
+                }
+
+                .progress-bar {
+                    font-size: 12px;
+                    position: relative;
+                    border-radius: 2px;
+                    background: transparent;
+
+                    span {
+                        display: block;
+                        height: 100%;
+                        z-index: 1;
+                        background-color: var(--primary-bg);
+                        border-radius: 2px;
+                        position: absolute;
+                        transition: width 0.1s ease-in-out;
+                    }
+
+                    div {
+                        color: var(--text-color);
+                        z-index: 1;
+                        position: relative;
+                        border-radius: 2px;
+                        transition: background-color 0.1s linear, color 0.1s linear;
+                        display: none;
+                        cursor: pointer;
+                    }
+
+                    .can-abort:hover {
+                        background-color: $danger;
+                        color: #fff;
+                    }
+
+                }
+
+                .progress-bar.uploading div {
+                    display: block;
+                }
+
+                img, video, .file-type {
+                    object-fit: cover;
+                    width: 100%;
+                    min-height: 100px;
+                    max-height: 100px;
+                    position: relative;
+                    z-index: 1;
+                    font-family: "Font Awesome 6 Free", sans-serif;
+                    border-radius: 5px;
+                }
+
+                .file-type {
+                    display: flex;
+                    font-size: 52px;
+                    border: 1px solid var(--lines);
+                    border-radius: 5px;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: var(--lines);
+                }
+
+                .info {
+                    position: absolute;
+                    padding: 10px;
+                    background-color: #00000080;
+                    color: #fff;
+                    width: 100%;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    font-size: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    opacity: 0;
+                    transition: opacity 0.2s ease-in-out;
+                    z-index: 2;
+                    border-radius: 5px;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+
+                    p {
+                        margin-bottom: 5px;
+                        width: 100%;
+                        cursor: default;
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+
+                [data-mime-type="text/plain"]:before {
+                    content: '\f15c' !important;
+                }
+
+                [data-mime-type="application/json"]:before, [data-mime-type="text/x-php"]:before, [data-mime-type="image/svg"]:before {
+                    content: '\f1c9' !important;
+                }
+
+                [data-mime-type="audio/mp3"]:before, [data-mime-type="audio/wav"]:before, [data-mime-type="audio/ogg"]:before {
+                    content: '\f1c7' !important;
+                }
+
+                [data-mime-type="application/pdf"]:before {
+                    content: '\f1c1' !important;
+                }
+
+                [data-mime-type="application/zip"]:before, [data-mime-type="application/x-rar"]:before, [data-mime-type="application/vnd.rar"]:before {
+                    content: '\f1c6' !important;
+                }
+
+                [data-mime-type*=".document"]:before {
+                    content: '\f1c2' !important;
+                }
+
+                [data-mime-type*=".sheet"]:before {
+                    content: '\f1c3' !important;
+                }
+
+                [data-mime-type*=".presentation"]:before {
+                    content: '\f1c4' !important;
+                }
+
+            }
+        }
+    }
+}

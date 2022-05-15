@@ -8,7 +8,7 @@ mix.options({
     hmrOptions: {
         port: 3001
     },
-
+    uglify: true
 });
 
 /*

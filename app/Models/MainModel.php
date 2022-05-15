@@ -170,7 +170,6 @@ class MainModel extends Model
 
     public function toJson($options = 0)
     {
-        dd('json ?');
         return parent::toJson($options);
     }
 
