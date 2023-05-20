@@ -55,7 +55,7 @@ header {
     transition: width 0.2s ease-in-out;
 
     .main {
-        width: 0;
+        width: 240px;
         visibility: hidden;
         margin: auto;
         position: absolute;
@@ -125,6 +125,22 @@ header {
         width: calc(100% - 100px);
         transform: translateX(100px);
         transition: width 0.2s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+    ul li {
+
+        ul {
+            margin-top: 10px;
+            margin-left: 25px;
+            display: none;
+        }
+
+    }
+
+    li.expanded {
+        > ul {
+            display: block;
+        }
     }
 
     &.open {

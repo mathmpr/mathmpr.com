@@ -7,17 +7,19 @@ use App\Utils\Lang;
 /**
  * render and get result html from view
  * find all href and src in all generated DOM
- * if is not a url (local url) add base_url to root of current site
+ * if is not an url (local url) add base_url to root of current site
  * util if you have a site running in two different env that one of this run in complex path like http://<domain>/<folder>/
  *
  * @param $view
  * @return false|string
  */
-function post_view($view)
+function postView($view): bool|string
 {
     $dom = new DOMDocument();
     $render = $view->render();
-    if(empty($render)) return $view;
+    if (empty($render)) {
+        return $view;
+    }
     try {
         $dom->loadHTML($render, LIBXML_NOERROR);
     } catch (\Exception $e) {
@@ -44,12 +46,16 @@ function post_view($view)
         }
     }
 
-    $xpath = (new DOMXPath($dom))->query((new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style, #scripts + link'));
-    while ($xpath->length){
+    $xpath = (new DOMXPath($dom))->query(
+        (new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style, #scripts + link')
+    );
+    while ($xpath->length) {
         foreach ($xpath as $item) {
             $item->parentNode->removeChild($item);
         }
-        $xpath = (new DOMXPath($dom))->query((new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style, #scripts + link'));
+        $xpath = (new DOMXPath($dom))->query(
+            (new CssSelectorConverter())->toXPath('#scripts + script, #scripts + style, #scripts + link')
+        );
     }
     return $dom->saveHTML();
 }

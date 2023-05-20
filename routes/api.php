@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\MediaLibraryController;
+use App\Http\Controllers\FallbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +17,17 @@ use App\Http\Controllers\MediaLibraryController;
 |
 */
 
-Route::resource('media-library', MediaLibraryController::class);
+Route::prefix('{lang?}')->group(function () {
+    Route::resource('media-library', MediaLibraryController::class);
 
-Route::post('register', [PassportAuthController::class, 'register']);
-Route::post('login', [PassportAuthController::class, 'login']);
-Route::middleware('auth:api')->group(function () {
-    Route::resource('posts', PostController::class);
+    Route::post('register', [PassportAuthController::class, 'register']);
+
+    Route::post('login', [PassportAuthController::class, 'login']);
+
+    Route::middleware('auth:api')->group(function () {
+        Route::resource('posts', PostController::class);
+    });
 });
+
+Route::any('{catchall}', [FallbackController::class, 'handle'])
+    ->where('catchall', '.*');

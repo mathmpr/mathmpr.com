@@ -6,6 +6,7 @@ use App\Utils\Lang;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class MainModel extends Model
@@ -19,7 +20,7 @@ class MainModel extends Model
 
     public function setLangValue($key, $value, $lang = null): bool
     {
-        $lang = $lang ? $lang : Lang::$lang;
+        $lang = $lang ?? App::getLocale();
         if (property_exists($this, 'translatable')) {
             if (in_array($key, $this->{"translatable"})) {
                 if (!isset($lang, $this->translations)) {
@@ -40,7 +41,7 @@ class MainModel extends Model
      */
     public function getLangValue($key, $lang = null)
     {
-        $lang = $lang ? $lang : Lang::$lang;
+        $lang = $lang ?? App::getLocale();
         if (property_exists($this, 'translatable')) {
             if (in_array($key, $this->{"translatable"})) {
 

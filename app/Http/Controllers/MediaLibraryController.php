@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -12,28 +13,34 @@ use Intervention\Image\Facades\Image;
 class MediaLibraryController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-
+        $all = $request->all();
+        $id = $all['id'] ?? 0;
+        return response()->json([
+            'success' => true,
+            'data' => Media::where('id', '>', $id)
+                ->limit(20)
+                ->get()
+                ->all()
+        ]);
     }
 
     public function show()
     {
-
     }
 
     public function store(Request $request)
     {
         $uploadedFile = $request->file('image');
-        if (!$uploadedFile) $uploadedFile = $request->file('upload');
+        if (!$uploadedFile) {
+            $uploadedFile = $request->file('upload');
+        }
 
         if (!$uploadedFile) {
-
-            $type = explode('/', $request->type);
-            $type = array_shift($type);
+            $type = 'url';
             $filename = $request->url;
             $public_url = $filename;
-
         } else {
             $type = explode('/', $uploadedFile->getMimeType());
             $type = array_shift($type);
@@ -76,36 +83,31 @@ class MediaLibraryController extends Controller
             }
 
             $public_url = '/storage/' . $filename;
-
         }
 
-        $media = (new Media([
+        (new Media([
             'name' => $filename,
             'type' => $type,
             'local' => $public_url
         ]))->save();
-
-        app('lang')->setLocale('en');
-
-        $media->name;
 
         return response()->json([
             'success' => true,
             'media_library' => [
                 'type' => $type,
                 'filename' => $filename,
-                'url' => URL::to('/') . $public_url
+                'url' => $type != 'url'
+                    ? URL::to('/') . $public_url
+                    : $public_url
             ]
         ]);
     }
 
     public function update()
     {
-
     }
 
     public function destroy()
     {
-
     }
 }

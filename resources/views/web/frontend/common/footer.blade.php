@@ -29,4 +29,4 @@
         </li>
     </ul>
 </footer>
-@include('loader')
+@include('web.loader')

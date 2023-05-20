@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Utils\Lang;
+
+
+use App\Http\Controllers\FallbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,24 +16,10 @@ use App\Utils\Lang;
 |
 */
 
-Route::get('/', function () {
-    return redirect(Lang::$lang);
+Route::prefix('{lang?}')->group(function () {
+    require __DIR__ . '/backend.php';
+    require __DIR__ . '/frontend.php';
 });
 
-Route::prefix('{lang}')->group(function () {
-
-    Route::get('/admin', function () {
-        return post_view(view('backend/dashboard'));
-    });
-
-    Route::get('/', function () {
-        return post_view(view('frontend/home'));
-    });
-
-    Route::get('/{slug}', function ($single) {
-        return post_view(view('frontend/single'));
-    });
-
-});
-
-
+Route::any('{catchall}', [FallbackController::class, 'handle'])
+    ->where('catchall', '.*');

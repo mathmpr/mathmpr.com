@@ -1,10 +1,10 @@
-@extends('frontend.dom')
+@extends('web.frontend.dom')
 
 @section('title') Single @endsection
 
 @section('head')
-    <link rel="stylesheet" href="css/frontend.css">
-    <link rel="stylesheet" href="css/frontend/single.css">
+    <link rel="stylesheet" href="/css/frontend.css">
+    <link rel="stylesheet" href="/css/frontend/single.css">
 @endsection
 
 @section('scripts')
@@ -30,7 +30,7 @@
                     dream. His room, a proper human room although a little too small, lay peacefully between its four
                     familiar walls. A collection of textile samples lay spread out on the table.</p>
             </div>
-            <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/1400/600?lz') }}" alt="picsum"
+            <img src="{{ \App\Utils\StaticImage::download('http://picsum.photos/1400/600?lz') }}" alt="picsum"
                  width="1400" height="600">
             <div>
                 <p>We are a digital agency with 20 plus years of collective experience in advert business like this
@@ -67,22 +67,22 @@
                 <h3>Similar Nodes</h3>
                 <div class="owl-carousel">
                     <div class="item">
-                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?c') }}"
+                        <img src="{{ \App\Utils\StaticImage::download('http://picsum.photos/800/800?c') }}"
                              alt="picsum" width="800" height="800">
                     </div>
                     <div class="item">
-                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?a') }}"
+                        <img src="{{ \App\Utils\StaticImage::download('http://picsum.photos/800/800?a') }}"
                              alt="picsum" width="800" height="800">
                     </div>
                     <div class="item">
-                        <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?d') }}"
+                        <img src="{{ \App\Utils\StaticImage::download('http://picsum.photos/800/800?d') }}"
                              alt="picsum" width="800" height="800">
                     </div>
                 </div>
             </div>
             <div class="author">
                 <div class="image-wrapper">
-                    <img src="./images/mathmpr.jpg" alt="Matheus Prado"/>
+                    <img src="/images/mathmpr.jpg" alt="Matheus Prado"/>
                 </div>
                 <div class="row about">
                     <div class="col-lg-6">
@@ -118,15 +118,15 @@
                         <h3>Outros nós do autor</h3>
                         <div class="row">
                             <div class="col-lg-4">
-                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?e') }}"
+                                <img src="{{ \App\Utils\StaticImage::download('http://picsum.photos/800/800?e') }}"
                                      alt="picsum" width="800" height="800">
                             </div>
                             <div class="col-lg-4">
-                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?f') }}"
+                                <img src="{{ \App\Utils\StaticImage::download('http://picsum.photos/800/800?f') }}"
                                      alt="picsum" width="800" height="800">
                             </div>
                             <div class="col-lg-4">
-                                <img src="{{ \App\Utils\StaticImage::download('https://picsum.photos/800/800?j') }}"
+                                <img src="{{ \App\Utils\StaticImage::download('http://picsum.photos/800/800?j') }}"
                                      alt="picsum" width="800" height="800">
                             </div>
                         </div>

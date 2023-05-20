@@ -151,7 +151,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             let _loaded = 0;
             let full_loaded = false;
-            let remove_preload_timeout = 500;
+            let remove_preload_timeout = 250;
             let scripts = document.querySelector('#scripts');
 
             let removePreload = () => {
@@ -192,8 +192,12 @@
                             clearInterval(clone.timeout);
                             if (!clone.loaded) {
                                 console.warn((clone.src ? clone.src : clone.href) + ' exceeded timeout of load time: ' + (timeout ? timeout : 3000) + '. page was loaded without finish/full load of this resource');
-                                _loaded++;
                             }
+                            _loaded++;
+                        }
+                        if (clone.loaded) {
+                            clearInterval(clone.timeout);
+                            _loaded++;
                         }
                         if (_loaded >= scripts.content.querySelectorAll('*').length && !full_loaded) {
                             clearInterval(clone.timeout);

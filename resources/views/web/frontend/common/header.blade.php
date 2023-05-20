@@ -1,6 +1,6 @@
-<!--div id="preload">
+<div id="preload">
     <div></div>
-</div-->
+</div>
 <div id="header">
     <header class="container">
         <div class="row">
