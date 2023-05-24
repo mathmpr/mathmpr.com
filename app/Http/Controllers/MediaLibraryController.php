@@ -16,11 +16,29 @@ class MediaLibraryController extends Controller
     public function index(Request $request)
     {
         $all = $request->all();
-        $id = $all['id'] ?? 0;
+        $offset = $all['offset'] ?? 0;
+        $limit = $all['limit'] ?? 18;
+        $types = $all['types'] ?? [];
+
+
+        $medias = Media::limit($limit)
+            ->offset($offset)
+            ->orderBy('created_at', 'desc');
+
+        if (!empty($types) && is_array($types)) {
+            $count = Media::whereIn('type', $types)->count();
+            $medias->whereIn('type', $types);
+        } else {
+            $count = Media::count();
+        }
+
+        $total_pages = $count / $limit;
+
         return response()->json([
             'success' => true,
-            'data' => Media::where('id', '>', $id)
-                ->limit(20)
+            'page' => ((int)($offset / $limit)) + 1,
+            'total_pages' => is_float($total_pages) ? ((int)$total_pages + 1) : $total_pages,
+            'data' => $medias
                 ->get()
                 ->all()
         ]);
@@ -38,16 +56,35 @@ class MediaLibraryController extends Controller
         }
 
         if (!$uploadedFile) {
-            $type = 'url';
-            $filename = $request->url;
+            $type = $request->get('type');
+            $filename = $request->get('url');
             $public_url = $filename;
+            $mime = 'url';
         } else {
+            $mime = $uploadedFile->getMimeType();
             $type = explode('/', $uploadedFile->getMimeType());
             $type = array_shift($type);
+            if (!in_array($type, ['image', 'video'])) {
+                $type = 'document';
+            }
 
             $filename = $uploadedFile->getClientOriginalName();
             $exp = explode('.', $filename);
             $ext = array_pop($exp);
+
+            $extensions = [
+                'pdf' => ['pdf'],
+                'document' => ['doc', 'docx'],
+                'sheet' => ['xls', 'xlsx', 'csv'],
+                'zipped' => ['zip', 'rar', 'gz'],
+                'text' => ['txt']
+            ];
+
+            foreach ($extensions as $_type => $extension) {
+                if (in_array($ext, $extension)) {
+                    $type = $_type;
+                }
+            }
 
             $clear_name = Str::slug(join('.', $exp));
             $filename = $clear_name . '.' . $ext;
@@ -66,7 +103,8 @@ class MediaLibraryController extends Controller
                 $filename
             );
 
-            if (str_contains($uploadedFile->getMimeType(), 'image')) {
+            if (str_contains($uploadedFile->getMimeType(), 'image')
+                && !str_contains($uploadedFile->getMimeType(), '/gif')) {
                 $filename_webp = $clear_name . '.webp';
                 $intervention = Image::make($storage . $filename);
                 unlink($storage . $filename);
@@ -85,18 +123,21 @@ class MediaLibraryController extends Controller
             $public_url = '/storage/' . $filename;
         }
 
+
         (new Media([
             'name' => $filename,
             'type' => $type,
-            'local' => $public_url
+            'local' => $public_url,
+            'mine' => $mime
         ]))->save();
 
         return response()->json([
             'success' => true,
             'media_library' => [
                 'type' => $type,
-                'filename' => $filename,
-                'url' => $type != 'url'
+                'name' => $filename,
+                'mine' => $mime,
+                'local' => in_array($type, ['image', 'video'])
                     ? URL::to('/') . $public_url
                     : $public_url
             ]

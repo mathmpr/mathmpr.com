@@ -245,7 +245,12 @@ class Media {
 
 
     render() {
-        $('#media-library').modal('show');
+        MediaLibrary.open({
+            max: 1,
+            types: ['image']
+        },(selections) => {
+            console.log(selections);
+        });
         this.options = {};
     }
 

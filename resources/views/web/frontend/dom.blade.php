@@ -17,6 +17,7 @@
     @yield('main')
     @include('web.frontend.common.footer')
 </main>
-<script>window.lang = '{{$lang}}';</script>
+<script>window.lang = '{{$lang}}'</script>
+<script>window.translations = JSON.parse('@json($translations)');</script>
 </body>
 </html>

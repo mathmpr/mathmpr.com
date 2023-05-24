@@ -4,10 +4,13 @@ namespace App\Utils;
 
 use App\Models\MainModel;
 use App\Models\Translate;
+use App\Utils\File\Directory;
+use App\Utils\File\File;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -52,6 +55,22 @@ class Lang
         }
         self::$lang = $lang;
         return $lang ?? config('app.fallback_locale');
+    }
+
+    public static function getTranslations(): array
+    {
+        $path = base_path() . '/lang/' . App::getLocale() . '/';
+        $directory = new Directory($path);
+        $result = [];
+        foreach ($directory->read()->getContent() as $file) {
+            /**
+             * @var File $file
+             */
+            $result = array_merge($result, [
+                $file->getName() => require $file->getLocation()
+            ]);
+        }
+        return $result;
     }
 
     /**

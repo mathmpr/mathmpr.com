@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('type', 20)->nullable();
+            $table->string('mine', 30)->nullable();
+            $table->text('name')->nullable();
+            $table->text('local')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
