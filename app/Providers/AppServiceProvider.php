@@ -45,5 +45,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         App::setLocale(Lang::discoverLang());
+        request()
+            ->headers
+            ->set('set-cookie', 'cross-site-cookie=whatever; SameSite=None; Secure');
     }
 }

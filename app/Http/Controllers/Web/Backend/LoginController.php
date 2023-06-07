@@ -20,11 +20,16 @@ class LoginController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
+        /**
+         * @var User $user
+         */
         $user = User::where([
             'email' => $request->get('username')
         ])->first();
         if ($user && Hash::check($request->get('password'), $user->password)) {
             auth()->login($user);
+            $token = $user->generateToken();
+            session()->put('api-key', $token);
         }
 
         $to = App::getLocale() . '/dashboard';

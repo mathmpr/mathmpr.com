@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * @property $name
+ * @property $email
+ * @property $password
+ * @property $remember_token
+ * @property $token
+ */
 class User extends Auth
 {
     use HasFactory, Notifiable, HasApiTokens;
@@ -42,6 +49,14 @@ class User extends Auth
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return string
+     */
+    public function generateToken(): string
+    {
+        return $this->createToken('LaravelAuthApp')->accessToken;
+    }
 
     public function posts()
     {

@@ -18,19 +18,17 @@
 
 @section('scripts')
 
-    <!--script class="on-ready">
-        let c = new Cropper({
-            target: '#to-crop',
-            image: '{{ asset("storage/captura-de-tela-de-2023-05-08-17-07-41.webp") }}',
-            frame: '300x900',
-            maxFrameWidth: 450
-        });
-    </script-->
+    <script class="on-ready">
+        //window.setModuleOptions('#mathmpr-editor', 'media', {
+        //    max: 2
+        //});
+    </script>
 
 @endsection
 
 @section('modals')
     @include('web/backend/common/modals/media-library')
+    @include('web/backend/common/modals/cropper')
 @endsection
 
 @section('main')
@@ -48,7 +46,7 @@
                 </div>
             </div>
             <div class="col-8">
-                <div id="mathmpr-editor">
+                <div id="mathmpr-editor" data-id="{{$id}}" data-url="{{ route('api.posts.index', ['lang' => $lang])  }}">
                     <ul class="module-selector">
                         <li data-module="code">
                             <i class="fa-solid fa-code"></i>

@@ -15,20 +15,29 @@ class MediaLibrary {
      */
     static onClose = false;
 
+    /**
+     * @type {boolean|function}
+     */
+    static onDismiss = false;
+
     static reset = () => {
+        MediaLibrary.confirm = false;
         MediaLibrary.content.html('');
         MediaLibrary.selectionsElement.hide();
     };
 
-    static open(options = {}, onClose = false) {
+    static open(options = {}, onClose = false, onDismiss) {
         if (typeof options !== 'object') {
             options = {};
         }
-        MediaLibrary.init();
         MediaLibrary.onClose = false;
         MediaLibrary.options = options;
+        MediaLibrary.init();
         if (typeof onClose === 'function') {
             MediaLibrary.onClose = onClose;
+        }
+        if (typeof onDismiss === 'function') {
+            MediaLibrary.onDismiss = onDismiss;
         }
         MediaLibrary.container.modal('show');
     }
@@ -43,12 +52,20 @@ class MediaLibrary {
             }
         }
 
+        MediaLibrary.scroll.unbind('scroll');
         MediaLibrary.scroll.on('scroll', (event) => {
             reachEnd();
         });
 
+        MediaLibrary.scroll.unbind('scroll');
         MediaLibrary.scroll.on('mousewheel', () => {
             reachEnd();
+        });
+
+        MediaLibrary.container.find('.modal-footer .btn-primary').unbind('click');
+        MediaLibrary.container.find('.modal-footer .btn-primary').on('click', () => {
+            MediaLibrary.confirm = true;
+            MediaLibrary.container.find('.modal-footer .btn-secondary').trigger('click');
         });
 
         function getMedias(offset = 0) {
@@ -60,6 +77,9 @@ class MediaLibrary {
                     offset: offset,
                     limit: MediaLibrary.limit,
                     types: MediaLibrary.options.types || []
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + window.apiToken);
                 },
                 success: function (response) {
                     if (response.success) {
@@ -75,23 +95,31 @@ class MediaLibrary {
             });
         }
 
+        MediaLibrary.container.unbind('shown.bs.modal');
         MediaLibrary.container.on('shown.bs.modal', () => {
             getMedias(MediaLibrary.offset);
         });
 
+        MediaLibrary.container.unbind('hide.bs.modal');
         MediaLibrary.container.on('hide.bs.modal', () => {
-            let selections = []
-            MediaLibrary.content.find('.selected').each((index, el) => {
-                selections.push($(el).closest('.col-2').get(0)['selected']);
-            });
-            if (MediaLibrary.onClose && typeof MediaLibrary.onClose === 'function') {
-                MediaLibrary.onClose(selections);
+            if (MediaLibrary.confirm) {
+                let selections = []
+                MediaLibrary.content.find('.selected').each((index, el) => {
+                    selections.push($(el).closest('.col-2').get(0)['selected']);
+                });
+                if (MediaLibrary.onClose && typeof MediaLibrary.onClose === 'function') {
+                    MediaLibrary.onClose(selections);
+                }
+            } else if (MediaLibrary.onDismiss && typeof MediaLibrary.onDismiss === 'function') {
+                MediaLibrary.onDismiss();
             }
             MediaLibrary.reset();
         });
 
         let addNew = $('#media-library .add_new_button');
         let addNewContainer = $('#media-library .add_new');
+
+        addNew.unbind('click');
         addNew.on('click', () => {
             addNew.toggleClass('opened');
             addNewContainer.toggleClass('open');
@@ -103,7 +131,10 @@ class MediaLibrary {
             }
         });
 
-        $("#media-library #file .btn-primary").on('click', () => {
+        let uploadFile = $("#media-library #file .btn-primary");
+
+        uploadFile.unbind('click');
+        uploadFile.on('click', () => {
             let items = $("#media-library #file .results .item");
             if (items.length) {
                 items.each((i, item) => {
@@ -143,7 +174,8 @@ class MediaLibrary {
                 contentType: false,
                 cache: false,
                 processData: false,
-                beforeSend: function () {
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + window.apiToken);
                     item.find('.progress-bar').addClass('uploading');
                     item.find('.progress-bar span').width('0%');
                 },
@@ -173,7 +205,10 @@ class MediaLibrary {
             });
         }
 
-        $("#media-library input[type='file']").on('change', (event) => {
+        let fileInput = $("#media-library input[type='file']");
+
+        fileInput.unbind('change');
+        fileInput.on('change', (event) => {
 
             let read = (key) => {
 
@@ -298,7 +333,10 @@ class MediaLibrary {
 
         for (let type in types) {
             let validador = types[type];
-            $('#media-library #' + type + ' .btn-primary').on('click', () => {
+            let sendForm = $('#media-library #' + type + ' .btn-primary');
+
+            sendForm.unbind('click');
+            sendForm.on('click', () => {
                 let url = $('#' + type + '-url');
                 let match = validador(url.val());
                 let error = $('#media-library #' + type + ' .error');
@@ -314,6 +352,9 @@ class MediaLibrary {
                     data: {
                         url: match,
                         type: type,
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + window.apiToken);
                     },
                     cache: false,
                     success: function (response) {

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Utils\Lang;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder as OverrideBuilder;
+use App\Override\OverrideBuilder as Builder;
 
 class MainModel extends Model
 {
@@ -37,7 +38,7 @@ class MainModel extends Model
     /**
      * @param $key
      * @param null $lang
-     * @return false|mixed
+     * @return null|mixed
      */
     public function getLangValue($key, $lang = null)
     {
@@ -50,7 +51,7 @@ class MainModel extends Model
                 }
 
                 if ($this->id) {
-                    $translate = Translate::where('object_class', get_class($this))
+                    $translate = Translate::where('object_class', str_replace('\\', '/', get_class($this)))
                         ->where('object_id', $this->id)
                         ->where('lang', $lang)
                         ->where('field', $key)
@@ -65,7 +66,7 @@ class MainModel extends Model
                 }
             }
         }
-        return false;
+        return null;
     }
 
     public function refreshLang()
@@ -149,13 +150,12 @@ class MainModel extends Model
     public function __get($key)
     {
         $getLang = $this->getLangValue($key);
-        return $getLang ? $getLang : parent::__get($key);
+        return $getLang ?? parent::__get($key);
     }
 
-    public function translationsToArray($lang = false)
+    public function translationsToArray()
     {
         $translates = [];
-        $lang = $lang ? $lang : Lang::$lang;
         if (property_exists($this, 'translatable')) {
             foreach ($this->{"translatable"} as $field) {
                 $translates[$field] = $this->{$field};
@@ -174,4 +174,14 @@ class MainModel extends Model
         return parent::toJson($options);
     }
 
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param OverrideBuilder $query
+     * @return Builder
+     */
+    public function newEloquentBuilder($query): Builder
+    {
+        return new Builder($query);
+    }
 }

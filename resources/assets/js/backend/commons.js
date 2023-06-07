@@ -1,6 +1,54 @@
-class Code {
+class Module {
 
+    block;
     element;
+
+    constructor(element) {
+        this.block = $(element).closest('.block');
+        this.element = element;
+
+        this.block.find('ul li.delete').on('click', (event) => {
+            let self = $(event.delegateTarget);
+            if (self.hasClass('really-delete')) {
+                this.#delete();
+            }
+            self.addClass('really-delete');
+        }).on('mouseout', (event) => {
+            if (!$(event.relatedTarget).closest('li').is(event.delegateTarget)) {
+                $(event.delegateTarget).removeClass('really-delete');
+            }
+        });
+    }
+
+    save(objectToSave = {}) {
+        apiCall({
+            url: editorUrl + '/' + editorObjectSlug,
+            method: 'PUT',
+            data: {
+                object: JSON.stringify(objectToSave),
+                type: this.constructor.name
+            }
+        }).then((response) => {
+            this.block.attr('data-id', response.data.content.id);
+            this.block.attr('data-order', response.data.content.order);
+        });
+    }
+
+    deleteSelf() {
+        this.#delete();
+    }
+
+    #delete() {
+        this.block.animate({
+            opacity: 0
+        }, 400, () => {
+            this.block.remove();
+        });
+    }
+}
+
+class Code extends Module {
+
     code;
     options = {};
     custom_options = {};
@@ -68,7 +116,7 @@ class Code {
     }
 
     constructor(element, options) {
-        this.element = element;
+        super(element);
         this.custom_options = Object.assign(this.custom_options, options);
 
         this.render();
@@ -146,9 +194,8 @@ class Code {
 
 }
 
-class Text {
+class Text extends Module {
 
-    element;
     editor;
     options = {};
     custom_options = {};
@@ -189,7 +236,7 @@ class Text {
     }
 
     constructor(element, options) {
-        this.element = element;
+        super(element);
         this.custom_options = Object.assign(this.custom_options, options);
 
         this.render();
@@ -233,25 +280,65 @@ class Text {
 
 }
 
-class Media {
+class Media extends Module {
 
-    element;
+    media;
+    saveOnChoose = true;
 
-    constructor(element) {
-        console.log(element);
-        this.element = element;
+    options = {
+        max: 1,
+        min: 1,
+        types: ['image']
+    }
+
+    constructor(element, options) {
+        super(element);
+        for (let i in options) {
+            if (this.options[i]) {
+                this.options[i] = options[i];
+            }
+        }
+        if (options.media) {
+            this.media = options.media;
+            this.saveOnChoose = false;
+        }
         this.render();
     }
 
+    #onChoose() {
+        this.element.innerHTML = '';
+
+        let div = $('#media-result').get(0).content.firstElementChild.cloneNode(true);
+
+        div.querySelector('img').src = this.media.local;
+        div.querySelector('.crop').addEventListener('click', (event) => {
+            CropperModal.open({
+                image: this.media.local
+            });
+        });
+
+        if (this.saveOnChoose) {
+            this.save(this.media);
+        }
+
+        this.element.append(div);
+    }
 
     render() {
-        MediaLibrary.open({
-            max: 1,
-            types: ['image']
-        },(selections) => {
-            console.log(selections);
-        });
-        this.options = {};
+
+        if (!this.media) {
+            MediaLibrary.open({
+                max: this.options.max,
+                types: this.options.types
+            }, (selections) => {
+                this.media = selections[0];
+                this.#onChoose();
+            }, () => {
+                this.deleteSelf();
+            });
+        } else {
+            this.#onChoose();
+        }
     }
 
 }
@@ -529,9 +616,20 @@ class Cropper {
 
 }
 
+function setModuleOptions(editor, module, options) {
+    editor = $(editor)
+    if (editor.length && typeof options === 'object') {
+        module = editor.find('*[data-module="' + module + '"]');
+        if (module.length) {
+            module.get(0).options = options;
+        }
+    }
+}
+
 module.exports = {
     Code,
     Text,
     Media,
-    Cropper
+    Cropper,
+    setModuleOptions
 }

@@ -38,7 +38,7 @@ class Lang
                 'headers' => $request->headers->all(),
                 'method' => $request->method(),
                 'query' => $request->query->all(),
-                'cookies' => $request->query->all(),
+                'cookies' => $request->cookies->all(),
                 'files' => $request->allFiles(),
                 'server' => $request->server->all(),
                 'content' => $request->all()

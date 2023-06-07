@@ -1,6 +1,10 @@
 @import "~codemirror/lib/codemirror.css";
 @import "~codemirror/theme/night.css";
-@import "~cropperjs/dist/cropper.min.css";
+@import "./common/cropper";
+
+label:empty {
+    display: none;
+}
 
 :root {
     --main-padding: 40px;
@@ -171,6 +175,21 @@ body > .block li[data-module], .overflow .block li[data-module] {
 
     .CodeMirror-wrap {
         border-radius: 5px;
+    }
+
+    .media-result {
+        > div img {
+            width: 100%;
+        }
+        .controls {
+            margin-top: 15px;
+            input, button {
+                width: 100%;
+            }
+            button i {
+                margin-right: 5px;
+            }
+        }
     }
 
 

@@ -3,7 +3,7 @@
     "/js/backend/app.js": "/js/backend/app.js",
     "/css/backend/dashboard.css": "/css/backend/dashboard.css",
     "/css/backend.css": "/css/backend.css",
-    "/css/frontend/single.css": "/css/frontend/single.css",
+    "/css/frontend/video-js.min.css": "/css/frontend/video-js.min.css",
     "/css/frontend/home.css": "/css/frontend/home.css",
     "/css/frontend.css": "/css/frontend.css",
     "/css/backend/login.css": "/css/backend/login.css",

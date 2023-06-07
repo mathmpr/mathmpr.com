@@ -1,0 +1,13 @@
+#cropper-modal {
+    .target .cropper-wrapper {
+
+        .cropper {
+            resize: both;
+            overflow: hidden;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
+}

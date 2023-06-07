@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -19,7 +19,6 @@ class MediaLibraryController extends Controller
         $offset = $all['offset'] ?? 0;
         $limit = $all['limit'] ?? 18;
         $types = $all['types'] ?? [];
-
 
         $medias = Media::limit($limit)
             ->offset($offset)

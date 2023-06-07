@@ -59,3 +59,8 @@ function postView($view): bool|string
     }
     return $dom->saveHTML();
 }
+
+function isApiCall(): bool
+{
+    return str_contains(request()->path(), 'api/');
+}

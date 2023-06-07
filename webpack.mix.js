@@ -8,8 +8,14 @@ mix.options({
     hmrOptions: {
         port: 3001
     },
-    uglify: true
+    uglify: true,
 });
+
+mix.webpackConfig({
+    experiments: {
+        topLevelAwait: true
+    }
+})
 
 /*
  |--------------------------------------------------------------------------
@@ -27,7 +33,7 @@ mix.browserSync('127.0.0.1:8000');
 mix.js('resources/assets/js/frontend/app.js', 'public/js/frontend')
     .sass('resources/assets/css/frontend.scss', 'public/css')
     .sass('resources/assets/css/frontend/home.scss', 'public/css/frontend/')
-    .sass('resources/assets/css/frontend/single.scss', 'public/css/frontend/');
+    .sass('resources/assets/css/frontend/common/video-js.min.scss', 'public/css/frontend/');
 
 
 mix.js('resources/assets/js/backend/app.js', 'public/js/backend')

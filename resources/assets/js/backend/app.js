@@ -55,7 +55,33 @@ window.getMimeType = (extension) => {
     return false;
 };
 
-let domReady = () => {
+window.apiCall = async (options = {}) => {
+    return backendCall({
+        ...options,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + window.apiToken);
+        },
+    });
+}
+
+window.backendCall = (options = {}) => {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            ...options,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + window.apiToken);
+            },
+            success: (response) => {
+                resolve(response);
+            },
+            error: (error) => {
+                resolve(error);
+            }
+        });
+    });
+}
+
+let domReady = async () => {
 
     document.querySelector('header span.toggle').addEventListener('click', () => {
         document.querySelector('header').classList.toggle('open');
@@ -106,90 +132,172 @@ let domReady = () => {
         return false;
     };
 
-    $("#mathmpr-editor .module-selector li").draggable({
-        helper: function () {
-            let div = $('<div class="block"></div>');
-            div.append($(this).clone());
-            div.attr('data-module', $(this).attr('data-module'));
-            return div;
-        },
-        appendTo: 'body',
-        connectToSortable: ".overflow",
-        start: function (event, ui) {
-            this.cloned = $(ui.helper[0]);
-            $(ui.helper[0]).addClass('dragging');
-        },
+    let editor = $("#mathmpr-editor");
 
-        revert: function (event, ui) {
-            $(this).data("uiDraggable").originalPosition = {
-                top: $(this).offset().top,
-                left: $(this).offset().left
-            };
-            return !event;
-        }
-    });
+    if (editor.length > 0) {
 
-    $('.overflow').sortable({
-        placeholder: 'block-placeholder',
-        handle: '.sort',
-        start: function (event, ui) {
-            if (ui.item.hasClass('rendered')) {
-                ui.item.addClass('sorting');
-            }
-        },
-        stop: function (event, ui) {
-            ui.item.removeClass('sorting');
-        },
-        receive: function (event, ui) {
+        let addEvents = () => {
+            editor.find(".module-selector li").draggable({
+                helper: function () {
+                    let div = $('<div class="block"></div>');
+                    div.append($(this).clone(true));
+                    div.attr('data-module', $(this).attr('data-module'));
+                    return div;
+                },
+                appendTo: 'body',
+                connectToSortable: ".overflow",
+                start: function (event, ui) {
+                    this.cloned = $(ui.helper[0]);
+                    $(ui.helper[0]).addClass('dragging');
+                },
 
-            let module = ui.item[0].cloned.attr('data-module');
-            let cloned = ui.item[0].cloned;
-            let template = $('[data-module-name="' + module + '"]');
+                revert: function (event, ui) {
+                    $(this).data("uiDraggable").originalPosition = {
+                        top: $(this).offset().top,
+                        left: $(this).offset().left
+                    };
+                    return !event;
+                }
+            });
 
-            cloned.removeClass('dragging');
-            cloned.addClass('rendered');
-            cloned.find('li').remove();
-
-            if (template.length > 0 && template[0].content && template[0].content.firstElementChild) {
-                let clone = template[0].content.firstElementChild.cloneNode(true);
-                let options = {};
-
-                cloned.append(document.querySelector('#controls').content.firstElementChild.cloneNode(true));
-                cloned.append(clone);
-
-                cloned.find('ul li.delete').on('click', (event) => {
-                    let self = $(event.delegateTarget);
-                    if (self.hasClass('really-delete')) {
-                        cloned.animate({
-                            opacity: 0
-                        }, 400, () => {
-                            cloned.remove();
+            editor.find(".overflow").sortable({
+                placeholder: 'block-placeholder',
+                handle: '.sort',
+                start: function (event, ui) {
+                    if (ui.item.hasClass('rendered')) {
+                        ui.item.addClass('sorting');
+                    }
+                },
+                stop: function (event, ui) {
+                    ui.item.removeClass('sorting');
+                    let item = ui.item;
+                    let index = Array.from(item.get(0).parentNode.children).indexOf(item.get(0));
+                    let itemId = parseInt(item.attr('data-id'));
+                    let oldIndex = parseInt(item.attr('data-order'));
+                    apiCall({
+                        url: window.editorUrl + '/' + window.editorObjectSlug + '/reorder',
+                        method: 'POST',
+                        data: {
+                            content_id: item.attr('data-id'),
+                            post_id: window.editorObjectId,
+                            old_index: item.attr('data-order'),
+                            new_index: index,
+                        }
+                    }).then(() => {
+                        item.parent().find('.block').each((i, el) => {
+                            el = $(el);
+                            let currentIndex = parseInt(el.attr('data-order'));
+                            let currentId = parseInt(el.attr('data-id'));
+                            if (itemId !== currentId) {
+                                if (index > oldIndex) {
+                                    if (currentIndex >= oldIndex && currentIndex <= index) {
+                                        el.attr('data-order', currentIndex - 1);
+                                    }
+                                } else {
+                                    if (currentIndex >= index && currentIndex <= oldIndex) {
+                                        el.attr('data-order', currentIndex + 1);
+                                    }
+                                }
+                            } else {
+                                el.attr('data-order', index);
+                            }
                         });
-                    }
-                    self.addClass('really-delete');
-                }).on('mouseout', (event) => {
-                    if (!$(event.relatedTarget).closest('li').is(event.delegateTarget)) {
-                        $(event.delegateTarget).removeClass('really-delete');
-                    }
-                });
+                    });
+                },
+                receive: function (event, ui) {
+                    let module = ui.item[0].cloned.attr('data-module');
+                    let cloned = ui.item[0].cloned;
+                    let template = $('[data-module-name="' + module + '"]');
+                    let options = ui.item[0].options ? ui.item[0].options : {};
 
-                cloned.editor = eval("new " + capitalize(module) + "(clone, options)");
+                    cloned.removeClass('dragging');
+                    cloned.addClass('rendered');
+                    cloned.find('li').remove();
 
-            }
+                    if (template.length > 0 && template[0].content && template[0].content.firstElementChild) {
+                        let clone = template[0].content.firstElementChild.cloneNode(true);
+
+                        cloned.append(document.querySelector('#controls').content.firstElementChild.cloneNode(true));
+                        cloned.append(clone);
+                        cloned.editor = eval("new " + capitalize(module) + "(clone, options)");
+                    }
+                }
+            });
         }
-    });
+
+        let id = editor.attr('data-id');
+        let url = editor.attr('data-url');
+        window.editorObjectSlug = null;
+        if (url == null) {
+            console.log('URL for editor Ajax requests is not defined.');
+        } else {
+            window.editorUrl = url;
+            addEvents();
+        }
+        if (id != null) {
+            window.editorObjectSlug = id;
+        }
+
+        let getPost = (slug) => {
+            apiCall({
+                url: url + '/' + slug,
+                method: 'GET',
+            }).then((response) => {
+                if (response.status) {
+                    window.editorObjectId = response.data.id;
+                    for (let i in response.data.contents) {
+                        let content = response.data.contents[i];
+                        let object = JSON.parse(content.content);
+                        let _class = content.type;
+                        let module = toTrace(_class);
+                        let options = {}
+                        options[module] = object;
+
+                        let block = $('<div class="block rendered" data-module="' + module + '"></div>');
+                        block.attr('data-id', content.id);
+                        block.attr('data-order', content.order);
+                        let clone = $('[data-module-name="' + module + '"]')[0].content.firstElementChild.cloneNode(true);
+
+                        block.append(document.querySelector('#controls').content.firstElementChild.cloneNode(true));
+                        block.append(clone);
+                        block.editor = eval("new " + capitalize(module) + "(clone, options)");
+
+                        editor.find(".overflow").prepend(block)
+                    }
+                }
+            });
+        }
+
+        if (!window.editorObjectSlug) {
+            apiCall({
+                url: url,
+                method: 'POST',
+            }).then((response) => {
+                if (response.status) {
+                    history.replaceState({}, "", "/" + lang + "/dashboard/posts/" + response.data.slug + "/edit");
+                    getPost(response.data.slug);
+                }
+            });
+        } else {
+            getPost(window.editorObjectSlug);
+        }
+    }
 
     window.MediaLibrary = require('./plugins/media-library');
-
+    window.CropperModal = require('./plugins/cropper');
 
 }
 
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    domReady();
-} else {
-    document.addEventListener('DOMContentLoaded', () => {
-        domReady();
-    });
-}
+await (async () => {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        await domReady();
+    } else {
+        document.addEventListener('DOMContentLoaded', async () => {
+            await domReady();
+        });
+    }
+})();
+
+
 
 

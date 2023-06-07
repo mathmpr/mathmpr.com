@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
-use Illuminate\Http\Request;
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
 use App\Models\User;
-class PassportAuthController extends Controller
+use Illuminate\Http\Request;
+
+class AuthController extends Controller
 {
     /**
      * Registration
@@ -22,9 +25,9 @@ class PassportAuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        $token = $user->createToken('LaravelAuthApp')->accessToken;
-
-        return response()->json(['token' => $token], 200);
+        return response()->json([
+            'token' => $user->generateToken()
+        ]);
     }
 
     /**
@@ -33,12 +36,12 @@ class PassportAuthController extends Controller
     public function login(Request $request)
     {
         $data = [
-            'email' => $request->email,
-            'password' => $request->password
+            'email' => $request->get('email'),
+            'password' => $request->get('password')
         ];
 
         if (auth()->attempt($data)) {
-            $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
+            $token = auth()->user()->generateToken();
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);

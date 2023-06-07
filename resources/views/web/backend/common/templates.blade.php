@@ -33,6 +33,23 @@
     </ul>
 </template>
 
+<template id="media-result">
+    <div class="media-result">
+        <div>
+            <img src="" alt="">
+        </div>
+        <div class="controls row">
+            <div class="col-5 buttons">
+                <button class="btn btn-primary crop"><i class="fa-solid fa-crop"></i>{{ trans('backend.plugins.media.crop') }}</button>
+            </div>
+            <div class="col-7">
+                <label for="alt"></label>
+                <input class="form-control" id="alt" name="alt" placeholder="Alt">
+            </div>
+        </div>
+    </div>
+</template>
+
 <template data-module-name="code">
     <div>
         <div class="input-group mb-3">
@@ -61,8 +78,7 @@
 </template>
 
 <template data-module-name="media">
-    <div>
-    </div>
+    <div></div>
 </template>
 
 <template data-module-name="text">

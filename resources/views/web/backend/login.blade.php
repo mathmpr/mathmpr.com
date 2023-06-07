@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label for="username"></label>
                     <input class="form-control" id="username" name="username" placeholder="Username" type="text"
-                           value="{{ $username ?? '' }}">
+                           value="{{ $username ?? '' }}" autocomplete="on">
                 </div>
                 <div class="form-group">
                     <label for="password"></label>

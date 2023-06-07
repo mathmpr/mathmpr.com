@@ -133,20 +133,8 @@
         }
 
         let appLoaded = () => {
-            let scripts = document.querySelector('#scripts');
-            if (scripts) {
-                scripts.content.querySelectorAll('*').forEach((el) => {
-                    if (loadedIds.indexOf(el.getAttribute('data-id')) < 0) {
-                        loadedIds.push(el.getAttribute('data-id'));
-                        let clone = el.cloneNode(true);
-                        if (clone.classList.contains('app')) {
-                            document.head.appendChild(clone);
-                        }
-                    }
-                });
-            }
-        }
 
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             let _loaded = 0;
@@ -170,6 +158,8 @@
             }
 
             if (scripts) {
+                let totals = scripts.content.querySelectorAll('*[src]').length +
+                    scripts.content.querySelectorAll('*[href]').length;
                 scripts.content.querySelectorAll('*').forEach((el) => {
                     let clone = el.cloneNode(true);
                     if (clone.classList.contains('on-ready') || clone.classList.contains('app')) return;
@@ -197,9 +187,8 @@
                         }
                         if (clone.loaded) {
                             clearInterval(clone.timeout);
-                            _loaded++;
                         }
-                        if (_loaded >= scripts.content.querySelectorAll('*').length && !full_loaded) {
+                        if (_loaded >= totals && !full_loaded) {
                             clearInterval(clone.timeout);
                             full_loaded = true;
                             removePreload();
