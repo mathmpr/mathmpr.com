@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="col-8">
-                <div id="mathmpr-editor" data-id="{{$id}}" data-url="{{ route('api.posts.index', ['lang' => $lang])  }}">
+                <div id="mathmpr-editor" data-id="{{$id}}" data-url="{{ route('api.nodes.index', ['lang' => $lang])  }}">
                     <ul class="module-selector">
                         <li data-module="code">
                             <i class="fa-solid fa-code"></i>

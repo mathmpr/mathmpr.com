@@ -2,10 +2,22 @@ class Module {
 
     block;
     element;
+    result;
+    id;
+    data;
+    content;
+    order;
 
-    constructor(element) {
+    constructor(element, options = {}) {
         this.block = $(element).closest('.block');
         this.element = element;
+        if (options[toTrace(this.constructor.name)]) {
+            this.setData(options[toTrace(this.constructor.name)]);
+        }
+
+        if ("order" in options) {
+            this.order = options.order;
+        }
 
         this.block.find('ul li.delete').on('click', (event) => {
             let self = $(event.delegateTarget);
@@ -20,17 +32,29 @@ class Module {
         });
     }
 
-    save(objectToSave = {}) {
+    setData(data) {
+        this.data = data;
+        if (this.data.content) {
+            this.content = JSON.parse(this.data.content)
+        }
+    }
+
+    save(objectToSave = {}, afterSave = false) {
+        let order = this.order;
         apiCall({
-            url: editorUrl + '/' + editorObjectSlug,
-            method: 'PUT',
+            url: editorUrl + '/' + editorObjectSlug + '/content',
+            method: 'POST',
             data: {
                 object: JSON.stringify(objectToSave),
-                type: this.constructor.name
+                type: this.constructor.name,
+                order: order
             }
         }).then((response) => {
             this.block.attr('data-id', response.data.content.id);
             this.block.attr('data-order', response.data.content.order);
+            if (typeof afterSave === 'function') {
+                afterSave(response);
+            }
         });
     }
 
@@ -39,10 +63,18 @@ class Module {
     }
 
     #delete() {
-        this.block.animate({
-            opacity: 0
-        }, 400, () => {
-            this.block.remove();
+        apiCall({
+            url: editorUrl + '/' + editorObjectSlug + '/content',
+            method: 'DELETE',
+            data: {
+                id: this.block.attr('data-id')
+            }
+        }).then(() => {
+            this.block.animate({
+                opacity: 0
+            }, 400, () => {
+                this.block.remove();
+            });
         });
     }
 }
@@ -121,7 +153,7 @@ class Code extends Module {
 
         this.render();
 
-        this.element.querySelector('.change-mode').addEventListener('change', () => {
+        this.element.querySelector('.change-mode').addEventListener('change', (event) => {
             this.old_mode = this.mode;
             this.mode = event.target.value;
             this.render();
@@ -292,16 +324,15 @@ class Media extends Module {
     }
 
     constructor(element, options) {
-        super(element);
+        super(element, options);
         for (let i in options) {
             if (this.options[i]) {
                 this.options[i] = options[i];
             }
         }
-        if (options.media) {
-            this.media = options.media;
-            this.saveOnChoose = false;
-        }
+
+        this.setData();
+
         this.render();
     }
 
@@ -309,19 +340,46 @@ class Media extends Module {
         this.element.innerHTML = '';
 
         let div = $('#media-result').get(0).content.firstElementChild.cloneNode(true);
+        this.result = div;
 
-        div.querySelector('img').src = this.media.local;
-        div.querySelector('.crop').addEventListener('click', (event) => {
+        if (this.saveOnChoose) {
+            this.save(this.media, (response) => {
+                this.setData(response.data.content);
+                this.#defineTemplate();
+            });
+        } else {
+            this.#defineTemplate();
+        }
+
+        this.element.append(div);
+    }
+
+    #defineTemplate()
+    {
+        let input = this.result.querySelector('#alt');
+        input.id = '#alt_' + this.id;
+        this.result.querySelector('*[for="alt"]').htmlFor = 'alt_' + this.id;
+        this.result.querySelector('img').src = this.media.local;
+        this.result.querySelector('.crop').addEventListener('click', (event) => {
             CropperModal.open({
                 image: this.media.local
             });
         });
+        input.addEventListener('blur', () => {
+            alert(this.id);
+        });
+    }
 
-        if (this.saveOnChoose) {
-            this.save(this.media);
+    setData(data) {
+        data = data || false;
+        if (data) {
+            super.setData(data);
         }
-
-        this.element.append(div);
+        if (this.content) {
+            this.saveOnChoose = false;
+            this.media = this.content;
+            this.id = this.data.id;
+        }
     }
 
     render() {
@@ -422,7 +480,7 @@ class Cropper {
         if (frame) {
             frame = frame.toLowerCase().split('x');
             if (frame.length === 1) {
-                console.log('frame format is EX: 200x400')
+                console.warn('frame format is EX: 200x400')
                 return false;
             }
 
@@ -472,7 +530,7 @@ class Cropper {
         }
 
         if (typeof img === 'number') {
-            console.log('image have to be a string or object');
+            console.warn('image have to be a string or object');
             return false;
         }
 
@@ -512,24 +570,24 @@ class Cropper {
     constructor(options) {
         Object.assign(this.options, options);
         if (!this.options.target || $(this.options.target).length < 1) {
-            console.log('target for cropper not set or not exists in DOM')
+            console.warn('target for cropper not set or not exists in DOM')
             return;
         }
 
         let template = $('#cropper');
         let target = $(this.options.target);
         if (!template.length) {
-            console.log('template required for init cropper')
+            console.warn('template required for init cropper')
             return;
         }
 
         if (!this.options.image) {
-            console.log('image not set or not found');
+            console.warn('image not set or not found');
             return;
         }
 
         if (!this.setFrame(this.options.frame)) {
-            console.log('frame not set or is in wrong format. Correct format is EX: 200x400');
+            console.warn('frame not set or is in wrong format. Correct format is EX: 200x400');
             return;
         }
 

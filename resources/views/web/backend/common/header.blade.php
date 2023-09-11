@@ -33,14 +33,14 @@
                 <li>
                     <a href="#">
                         <i class="fa-solid fa-chevron-right"></i>
-                        Posts
+                        Nodes
                     </a>
                     <ul>
                         <li>
-                            <a href="/{{ $lang }}/dashboard/posts/">{{ trans('backend.menu.manage') }}</a>
+                            <a href="/{{ $lang }}/dashboard/nodes/">{{ trans('backend.menu.manage') }}</a>
                         </li>
                         <li>
-                            <a href="/{{ $lang }}/dashboard/posts/create">{{ trans('backend.menu.add') }}</a>
+                            <a href="/{{ $lang }}/dashboard/nodes/create">{{ trans('backend.menu.add') }}</a>
                         </li>
                     </ul>
                 </li>

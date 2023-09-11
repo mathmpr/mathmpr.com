@@ -173,15 +173,19 @@ let domReady = async () => {
                     let item = ui.item;
                     let index = Array.from(item.get(0).parentNode.children).indexOf(item.get(0));
                     let itemId = parseInt(item.attr('data-id'));
+                    if (!itemId) {
+                        return;
+                    }
                     let oldIndex = parseInt(item.attr('data-order'));
                     apiCall({
-                        url: window.editorUrl + '/' + window.editorObjectSlug + '/reorder',
+                        url: window.editorUrl + '/' + window.editorObjectSlug + '/content/reorder',
                         method: 'POST',
                         data: {
-                            content_id: item.attr('data-id'),
-                            post_id: window.editorObjectId,
+                            id: item.attr('data-id'),
+                            node_id: window.editorObjectId,
                             old_index: item.attr('data-order'),
                             new_index: index,
+                            object: true
                         }
                     }).then(() => {
                         item.parent().find('.block').each((i, el) => {
@@ -214,11 +218,14 @@ let domReady = async () => {
                     cloned.addClass('rendered');
                     cloned.find('li').remove();
 
+                    options.order = Array.from(cloned.get(0).parentNode.children).indexOf(cloned.get(0));
+
                     if (template.length > 0 && template[0].content && template[0].content.firstElementChild) {
                         let clone = template[0].content.firstElementChild.cloneNode(true);
 
                         cloned.append(document.querySelector('#controls').content.firstElementChild.cloneNode(true));
                         cloned.append(clone);
+
                         cloned.editor = eval("new " + capitalize(module) + "(clone, options)");
                     }
                 }
@@ -238,7 +245,7 @@ let domReady = async () => {
             window.editorObjectSlug = id;
         }
 
-        let getPost = (slug) => {
+        let getNode = (slug) => {
             apiCall({
                 url: url + '/' + slug,
                 method: 'GET',
@@ -247,11 +254,10 @@ let domReady = async () => {
                     window.editorObjectId = response.data.id;
                     for (let i in response.data.contents) {
                         let content = response.data.contents[i];
-                        let object = JSON.parse(content.content);
                         let _class = content.type;
                         let module = toTrace(_class);
                         let options = {}
-                        options[module] = object;
+                        options[module] = content;
 
                         let block = $('<div class="block rendered" data-module="' + module + '"></div>');
                         block.attr('data-id', content.id);
@@ -274,12 +280,12 @@ let domReady = async () => {
                 method: 'POST',
             }).then((response) => {
                 if (response.status) {
-                    history.replaceState({}, "", "/" + lang + "/dashboard/posts/" + response.data.slug + "/edit");
-                    getPost(response.data.slug);
+                    history.replaceState({}, "", "/" + lang + "/dashboard/nodes/" + response.data.slug + "/edit");
+                    getNode(response.data.slug);
                 }
             });
         } else {
-            getPost(window.editorObjectSlug);
+            getNode(window.editorObjectSlug);
         }
     }
 

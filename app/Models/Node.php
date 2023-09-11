@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\App;
  * @property $description
  * @property $slug
  */
-class Post extends MainModel
+class Node extends MainModel
 {
     use SoftDeletes;
 
@@ -22,7 +22,7 @@ class Post extends MainModel
 
     public function contents()
     {
-        return $this->hasMany(PostContent::class)
+        return $this->hasMany(NodeContent::class)
             ->where(['lang' => App::getLocale()])
             ->orderBy('order', 'desc');
     }

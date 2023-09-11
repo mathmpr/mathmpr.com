@@ -54,6 +54,9 @@ class MediaLibraryController extends Controller
             $uploadedFile = $request->file('upload');
         }
 
+        $width = 0;
+        $height = 0;
+
         if (!$uploadedFile) {
             $type = $request->get('type');
             $filename = $request->get('url');
@@ -87,7 +90,7 @@ class MediaLibraryController extends Controller
 
             $clear_name = Str::slug(join('.', $exp));
             $filename = $clear_name . '.' . $ext;
-            $storage = storage_path('app/public/');
+            $storage = storage_path('app/public/media/');
 
             $count = 1;
             while (file_exists($storage . $filename)) {
@@ -97,37 +100,43 @@ class MediaLibraryController extends Controller
             }
 
             Storage::disk('local')->putFileAs(
-                'public',
+                'public/media',
                 $uploadedFile,
                 $filename
             );
 
-            if (str_contains($uploadedFile->getMimeType(), 'image')
-                && !str_contains($uploadedFile->getMimeType(), '/gif')) {
-                $filename_webp = $clear_name . '.webp';
+            if (str_contains($uploadedFile->getMimeType(), 'image')) {
+
                 $intervention = Image::make($storage . $filename);
-                unlink($storage . $filename);
+                $width = $intervention->width();
+                $height = $intervention->height();
 
-                $count = 1;
-                while (file_exists($storage . $filename_webp)) {
-                    $new_filename = $clear_name . '_' . $count . '.webp';
-                    $filename_webp = $new_filename;
-                    $count++;
+                if(!str_contains($uploadedFile->getMimeType(), '/gif')) {
+                    $filename_webp = $clear_name . '.webp';
+                    unlink($storage . $filename);
+
+                    $count = 1;
+                    while (file_exists($storage . $filename_webp)) {
+                        $new_filename = $clear_name . '_' . $count . '.webp';
+                        $filename_webp = $new_filename;
+                        $count++;
+                    }
+                    $filename = $filename_webp;
+
+                    $intervention->encode('webp', 80)->save($storage . $filename);
                 }
-                $filename = $filename_webp;
-
-                $intervention->encode('webp', 80)->save($storage . $filename);
             }
 
-            $public_url = '/storage/' . $filename;
+            $public_url = '/storage/media/' . $filename;
         }
-
 
         (new Media([
             'name' => $filename,
             'type' => $type,
             'local' => $public_url,
-            'mine' => $mime
+            'mime' => $mime,
+            'width' => $width,
+            'height' => $height
         ]))->save();
 
         return response()->json([
@@ -135,7 +144,7 @@ class MediaLibraryController extends Controller
             'media_library' => [
                 'type' => $type,
                 'name' => $filename,
-                'mine' => $mime,
+                'mime' => $mime,
                 'local' => in_array($type, ['image', 'video'])
                     ? URL::to('/') . $public_url
                     : $public_url

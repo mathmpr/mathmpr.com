@@ -19,6 +19,11 @@ class Media extends MainModel
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'type', 'local'
+        'name',
+        'type',
+        'local',
+        'mime',
+        'width',
+        'height'
     ];
 }

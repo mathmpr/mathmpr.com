@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\Backend\LogoutController;
 use App\Http\Controllers\Web\Backend\DashboardController;
-use App\Http\Controllers\Web\Backend\PostController;
+use App\Http\Controllers\Web\Backend\NodeController;
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::prefix('dashboard')->group(function () {
 
-        Route::resource('posts', PostController::class);
+        Route::resource('nodes', NodeController::class);
 
     });
 

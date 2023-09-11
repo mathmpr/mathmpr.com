@@ -68,4 +68,10 @@ class File
         return $this->fullName;
     }
 
+    public function copy($to): self
+    {
+        copy($this->location, $to . $this->fullName);
+        return $this;
+    }
+
 }

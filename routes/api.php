@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MediaLibraryController;
-use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\NodeController;
+use App\Http\Controllers\Api\NodeContentController;
 use App\Http\Controllers\FallbackController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,22 +23,28 @@ Route::prefix('{lang?}')->group(function () {
 
     Route::post('login', [AuthController::class, 'login']);
 
-    Route::get('posts', [PostController::class, 'index'])
-        ->name('api.posts.index');
+    Route::get('nodes', [NodeController::class, 'index'])
+        ->name('api.nodes.index');
 
-    Route::get('posts/{slug}', [PostController::class, 'show'])
-        ->name('api.posts.view');
+    Route::get('nodes/{slug}', [NodeController::class, 'show'])
+        ->name('api.nodes.view');
 
     Route::middleware('auth:api')->group(function () {
 
-        Route::post('posts', [PostController::class, 'store'])
-            ->name('api.posts.create');
+        Route::post('nodes', [NodeController::class, 'store'])
+            ->name('api.nodes.create');
 
-        Route::post('posts/{slug}/reorder', [PostController::class, 'reorder'])
-            ->name('api.posts.reorder');
+        Route::post('nodes/{slug}/content', [NodeContentController::class, 'store'])
+            ->name('api.nodes.content.create');
 
-        Route::put('posts/{slug}', [PostController::class, 'store'])
-            ->name('api.posts.update');
+        Route::post('nodes/{slug}/content/reorder', [NodeContentController::class, 'reorder'])
+            ->name('api.nodes.content.reorder');
+
+        Route::put('nodes/{slug}', [NodeController::class, 'store'])
+            ->name('api.nodes.update');
+
+        Route::delete('nodes/{slug}/content', [NodeController::class, 'destroyContent'])
+            ->name('api.nodes.content.delete');
 
         Route::resource('media-library', MediaLibraryController::class);
     });

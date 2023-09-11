@@ -58,9 +58,9 @@ class User extends Auth
         return $this->createToken('LaravelAuthApp')->accessToken;
     }
 
-    public function posts()
+    public function nodes()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Node::class);
     }
 
 }
