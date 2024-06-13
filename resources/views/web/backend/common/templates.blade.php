@@ -7,16 +7,12 @@
                     <p>Desired size: <b class="d_size">1000 x 1000</b></p>
                     <p>Image original size: <b class="o_size"></b></p>
                     <p>Preview size: <b class="p_size"></b></p>
-                    <p>Zoom percentage: <b class="z_size"></b></p>
-                    <p>X on preview: <b class="x"></b></p>
-                    <p>Y on preview: <b class="y"></b></p>
-                    <p>X with percentage: <b class="xr"></b></p>
-                    <p>Y with percentage: <b class="yr"></b></p>
+                    <p><label for="cropper-x_size">Zoom percentage: </label><input type="number" id="cropper-x_size" class="z_size form-control"/><b></b></p>
+                    <p><label for="cropper-x">X on preview: </label><input type="number" id="cropper-x" class="x form-control"/></p>
+                    <p><label for="cropper-y">Y on preview: </label><input type="number" id="cropper-y" class="y form-control"/></p>
                 </div>
-                <p>
-                    <button class="btn btn-primary crop">Crop</button>
-                </p>
             </div>
+            <h5>Live preview</h5>
             <div class="result"></div>
         </div>
     </div>

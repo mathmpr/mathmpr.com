@@ -46,6 +46,18 @@
         return capitalize(camelize(str));
     }
 
+    let toUnderscore = (str) => {
+        return str.replace(/\.?([A-Z])/g, (x, y) => {
+            return "_" + y.toLowerCase()
+        }).replace(/^_/, "");
+    }
+
+    let toTrace = (str) => {
+        return toUnderscore(str)
+            .split('_')
+            .join('-');
+    }
+
     let clone = (obj, hash = new WeakMap()) => {
         if (Object(obj) !== obj || obj instanceof Function) return obj;
         if (hash.has(obj)) return hash.get(obj);

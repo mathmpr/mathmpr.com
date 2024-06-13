@@ -102,7 +102,8 @@ class MediaLibraryController extends Controller
             Storage::disk('local')->putFileAs(
                 'public/media',
                 $uploadedFile,
-                $filename
+                $filename,
+
             );
 
             if (str_contains($uploadedFile->getMimeType(), 'image')) {

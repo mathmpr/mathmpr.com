@@ -11,11 +11,11 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('node_contents', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedBigInteger('node_id');
+            $table->integer('id', true);
+            $table->integer('node_id');
             $table->foreign('node_id')->references('id')->on('nodes');
             $table->integer('order');
             $table->text('content');
@@ -31,7 +31,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('nodes');
     }

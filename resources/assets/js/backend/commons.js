@@ -39,11 +39,11 @@ class Module {
         }
     }
 
-    save(objectToSave = {}, afterSave = false) {
+    save(objectToSave = {}, afterSave = false, update = false) {
         let order = this.order;
         apiCall({
-            url: editorUrl + '/' + editorObjectSlug + '/content',
-            method: 'POST',
+            url: editorUrl + '/' + window.editorObjectSlug + '/content',
+            method: update ? 'PUT' : 'POST',
             data: {
                 object: JSON.stringify(objectToSave),
                 type: this.constructor.name,
@@ -354,15 +354,25 @@ class Media extends Module {
         this.element.append(div);
     }
 
-    #defineTemplate()
-    {
+    #defineTemplate() {
         let input = this.result.querySelector('#alt');
         input.id = '#alt_' + this.id;
         this.result.querySelector('*[for="alt"]').htmlFor = 'alt_' + this.id;
         this.result.querySelector('img').src = this.media.local;
         this.result.querySelector('.crop').addEventListener('click', (event) => {
             CropperModal.open({
-                image: this.media.local
+                image: this.media.local,
+                frame: '800x400',
+                onFinish: (data) => {
+                    this.save({
+                        ...this.media,
+                        media_id: this.id,
+                        crop: data
+                    }, (response) => {
+                        this.setData(response.data.content);
+                        this.#defineTemplate();
+                    }, true);
+                }
             });
         });
         input.addEventListener('blur', () => {
@@ -409,22 +419,77 @@ class Cropper {
     info;
     frame_w = 0;
     frame_h = 0;
+    percent = 0;
+    imageIsMoreLargeThanFrame = false;
+    originalWidth = 0;
+    originalHeight = 0;
 
     options = {
         frame: '600x600',
         maxFrameWidth: 300,
-        zoomStep: 3,
+        zoomStep: 1,
         target: null,
         image: null,
+        onFinish: null,
     }
 
     process() {
 
+        const _x = this.info.find('.x').get(0);
+        const _y = this.info.find('.y').get(0);
+        const _w = this.info.find('.z_size').get(0);
+
+        if (!_x.classList.contains('bind')) {
+            _x.classList.add('bind');
+            $(_x).on('keyup', (event) => {
+                this.image.css({
+                    left: event.target.value + 'px'
+                });
+                this.process();
+            });
+            $(_y).on('keyup', (event) => {
+                this.image.css({
+                    top: event.target.value + 'px'
+                });
+                this.process();
+            });
+            $(_w).on('keyup', (event) => {
+                this.image.attr('data-zoom', event.target.value);
+                let zoom = event.target.value;
+
+                let obj = {};
+                if (this.image.hasClass('width')) obj.width = zoom + '%';
+                if (this.image.hasClass('height')) obj.height = zoom + '%';
+
+                this.image.css(obj);
+
+                this.process();
+            });
+            let els = [
+                _x, _y, _w
+            ];
+            els.forEach((el) => {
+                $(el).on('mousewheel', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    let value = parseInt(el.value);
+                    if (event.originalEvent.deltaY > 0) {
+                        value -= 1;
+                    } else {
+                        value += 1;
+                    }
+                    el.value = value;
+                    $(el).trigger('keyup');
+                });
+            });
+        }
+
         if (this.image.length) {
-            let y = this.image[0].offsetTop;
-            let x = this.image[0].offsetLeft;
-            this.info.find('.x').html(x);
-            this.info.find('.y').html(y);
+
+            let y = this.image[0].offsetTop - this.image[0].parentElement.offsetTop;
+            let x = this.image[0].offsetLeft - this.image[0].parentElement.offsetLeft;
+            _x.value = x;
+            _y.value = y;
 
             let zoom = (parseInt(this.image.attr('data-zoom')) / 100);
 
@@ -456,21 +521,40 @@ class Cropper {
                 y = -y;
             }
 
-            this.info.find('.xr').html(resized_x);
-            this.info.find('.yr').html(resized_y);
+            this.definePercent();
 
-            return {
+            let o = {
                 image: this.image,
                 frame_w: this.frame_w,
                 frame_h: this.frame_h,
                 y,
                 x,
                 zoom,
-                dest_w,
-                dest_h,
+                dest_w: Math.round(dest_w),
+                dest_h: Math.round(dest_h),
                 resized_x,
                 resized_y
-            }
+            };
+
+            let result = this.target.find(".result");
+            result.css({
+                width: o.frame_w,
+                height: o.frame_h,
+                overflow: 'hidden',
+                position: 'relative',
+            });
+            let image = o.image.clone();
+            image.css({
+                width: o.dest_w,
+                height: o.dest_h,
+                top: o.resized_y,
+                left: o.resized_x,
+                position: 'absolute',
+            });
+            result.html(image);
+
+            o.image = o.image.attr('src').replace(window.location.origin, '');
+            return o;
         }
         return false;
     }
@@ -540,17 +624,16 @@ class Cropper {
 
         this.image.attr('data-zoom', 100);
 
-        this.info.find('.z_size').html('100%');
+        this.info.find('.z_size').get(0).value = 100;
 
         this.cropper.html(this.image);
 
         this.image.on('load', () => {
-            let height = this.image[0].naturalHeight;
-            let width = this.image[0].naturalWidth;
-            this.info.find(".o_size").html(width + ' x ' + height);
+            this.definePercent();
+            this.info.find(".o_size").html(this.originalWidth + ' x ' + this.originalHeight);
             this.info.find(".p_size").html(this.cropper.width() + ' x ' + this.cropper.height());
             this.image.addClass('height').removeClass('width');
-            if (width > height) {
+            if (this.originalWidth > this.originalHeight) {
                 this.image.addClass('width').removeClass('height');
             }
             this.process();
@@ -565,6 +648,56 @@ class Cropper {
         this.process();
 
         return true;
+    }
+
+    definePercent() {
+
+        let cw;
+        let ch;
+        let secondCall = false;
+        if (!this.originalHeight || !this.originalWidth) {
+            this.originalHeight = this.image[0].naturalHeight;
+            this.originalWidth = this.image[0].naturalWidth;
+            cw = this.cropper.width();
+            ch = this.cropper.height();
+        } else {
+            cw = this.image.width();
+            ch = this.image.height();
+            secondCall = true;
+        }
+
+        let height = this.originalHeight;
+        let width = this.originalWidth;
+
+        if (height > width) {
+            if (height < ch) {
+                let diff = ch - height;
+                this.percent = diff * 100 / height;
+                this.imageIsMoreLargeThanFrame = false;
+                if (this.percent < 100 || secondCall) {
+                    this.percent += 100;
+                }
+            } else {
+                let diff = height - ch;
+                this.percent = diff * 100 / height;
+                this.imageIsMoreLargeThanFrame = true;
+            }
+            this.image.height(ch);
+        } else {
+            if (width < cw) {
+                let diff = cw - width;
+                this.percent = diff * 100 / width;
+                this.imageIsMoreLargeThanFrame = false;
+                if (this.percent < 100 || secondCall) {
+                    this.percent += 100;
+                }
+            } else {
+                let diff = width - cw;
+                this.percent = diff * 100 / width;
+                this.imageIsMoreLargeThanFrame = true;
+            }
+            this.image.width(cw);
+        }
     }
 
     constructor(options) {
@@ -629,35 +762,11 @@ class Cropper {
                 if (this.image.hasClass('width')) obj.width = zoom + '%';
                 if (this.image.hasClass('height')) obj.height = zoom + '%';
 
-                this.info.find('.z_size').html(zoom + '%');
+                this.info.find('.z_size').get(0).value = zoom;
 
                 this.image.css(obj);
 
                 this.process();
-            }
-        });
-
-        this.target.find("button.crop").on('click', () => {
-            let o = this.process();
-            if (o) {
-                let result = this.target.find(".result");
-                result.css({
-                    width: o.frame_w,
-                    height: o.frame_h,
-                    overflow: 'hidden',
-                    position: 'relative',
-                    border: '1px solid',
-                });
-                let image = o.image.clone();
-                image.css({
-                    width: o.dest_w,
-                    height: o.dest_h,
-                    top: o.resized_y,
-                    left: o.resized_x,
-                    position: 'absolute',
-                    border: '1px solid'
-                });
-                result.html(image);
             }
         });
 
@@ -669,6 +778,16 @@ class Cropper {
                 }
             }, 50);
         }
+
+        let finish = this.target.closest('.modal-dialog').find('.finish');
+        finish.on('click', (event) => {
+            finish.unbind('click');
+            let o = this.process();
+            if (this.options.onFinish && is_callable(this.options.onFinish) && o) {
+                this.options.onFinish(o);
+            }
+            $(event.target).prev().trigger('click');
+        })
 
     }
 

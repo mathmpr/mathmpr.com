@@ -13,7 +13,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Finalizar recorte</button>
+                <button type="button" class="btn btn-primary finish">Finalizar recorte</button>
             </div>
         </div>
     </div>

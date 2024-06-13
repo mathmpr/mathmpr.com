@@ -26,12 +26,11 @@ class CropperModal {
 
     static init() {
 
-        console.log(CropperModal.options.image);
-
         new Cropper({
             target: '#cropper-modal .target',
             image: CropperModal.options.image,
-            frame: '300x900',
+            frame: CropperModal.options.frame,
+            onFinish: CropperModal.options.onFinish,
             maxFrameWidth: 450
         })
 

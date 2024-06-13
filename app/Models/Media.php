@@ -26,4 +26,9 @@ class Media extends MainModel
         'width',
         'height'
     ];
+
+    public function internalPath(): string
+    {
+        return public_path() . $this->local;
+    }
 }

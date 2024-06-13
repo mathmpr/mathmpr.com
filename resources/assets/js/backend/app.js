@@ -43,7 +43,6 @@ window.Image = require('@editorjs/image');
 window.Delimiter = require('@editorjs/delimiter');
 
 window._mime = require('mime-db');
-
 window.getMimeType = (extension) => {
     for (let i in _mime) {
         if (_mime[i].extensions) {
@@ -281,6 +280,7 @@ let domReady = async () => {
             }).then((response) => {
                 if (response.status) {
                     history.replaceState({}, "", "/" + lang + "/dashboard/nodes/" + response.data.slug + "/edit");
+                    window.editorObjectSlug = response.data.slug;
                     getNode(response.data.slug);
                 }
             });

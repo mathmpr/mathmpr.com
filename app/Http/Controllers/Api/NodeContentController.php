@@ -87,7 +87,7 @@ class NodeContentController extends Controller
         $object = json_decode($object, true);
         switch (strtolower($type)) {
             case 'media':
-                $file = (new File(str_replace('//', '/public/', base_path($object['local']))))
+                $file = (new File(public_path($object['local'])))
                     ->copy(storage_path('app/public/nodes/'));
                 $object['local'] = '/storage/nodes/' . $file->getFullName();
                 break;
@@ -100,7 +100,7 @@ class NodeContentController extends Controller
     public function store(Request $request, $lang, $slug = false)
     {
         list($action, $node, $content) = $this->getRequiredData($request, $lang, $slug);
-        if ($action === 'insert') {
+        if ($request->getMethod() === 'POST') {
             $order = $request->get('order');
             $addOrder = false;
             if ($order === null) {
@@ -138,9 +138,16 @@ class NodeContentController extends Controller
                 ]);
             }
         } else {
+            $mediaId = $request->get('media_id', null);
+            if ($mediaId) {
+                $object = $request->post('object', '{}');
+                $object = json_decode($object, true);
+                if (!empty($object)) {
+                    dd($object);
+                }
+            }
             return response()->json([
                 'status' => true,
-                'update' => 'update',
                 'data' => [
                     'node' => $node,
                     'content' => $content,

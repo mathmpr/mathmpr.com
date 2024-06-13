@@ -2,7 +2,7 @@ version: "3.7"
 
 networks:
     mathmpr:
-        driver: bridge
+        name: mathmpr
 
 services:
     mathmpr:
@@ -23,17 +23,20 @@ services:
 
     db:
         image: mysql:8.0
-        container_name: mathmpr-db
+        container_name: mathmpr_db
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_DATABASE: mathmpr
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: root
+            MYSQL_USER: mathmpr
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql
         volumes:
             - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+            - ./docker-compose/mysql/data:/var/lib/mysql
+        ports:
+            - "3306:3306"
         networks:
             - mathmpr
 
@@ -46,5 +49,7 @@ services:
         volumes:
             - ./:/var/www
             - ./docker-compose/nginx:/etc/nginx/conf.d
+            - ./storage:/var/www/storage
+            - ./storage/app/public:/var/www/html/public/storage
         networks:
             - mathmpr

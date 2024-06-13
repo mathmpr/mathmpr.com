@@ -3,6 +3,7 @@
 namespace App\Override;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -28,14 +29,26 @@ class OverrideBuilder extends Builder
             $value = $column[$key];
             $column = $key;
         }
+        $objectClass = str_replace('\\', '/', get_class($this->model));
         $sql = DB::table('translates')
             ->select(DB::raw(1))
             ->whereColumn('translates.object_id', $this->model->getTable() . '.id')
-            ->whereColumn('translates.object_class', str_replace('\\', '/', get_class($this->model)))
-            ->whereColumn('translates.field', $column)
-            ->whereColumn('translates.value', $value)
-            ->toSql();
-        return $this->whereRaw(($not ? 'not' : '') . ' exists (' .  $sql . ')', [], $boolean);
+            ->where('translates.object_class', $objectClass)
+            ->where('translates.field', $column)
+            ->where('translates.value', $value);
+
+        return $this->whereRaw(($not ? 'not' : '') . ' exists (' .  static::toSqlWithBindings($sql) . ')', [], $boolean);
+    }
+
+    public static function toSqlWithBindings(QueryBuilder $query): string
+    {
+        $bindings = $query->getBindings();
+        $sql = $query->toSql();
+        while(count($bindings) > 0) {
+            $binding = array_shift($bindings);
+            $sql = preg_replace('/\?/', is_numeric($binding) ? $binding : "'".$binding."'" , $sql, 1);
+        }
+        return $sql;
     }
 
 }

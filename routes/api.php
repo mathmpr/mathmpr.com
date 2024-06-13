@@ -34,17 +34,20 @@ Route::prefix('{lang?}')->group(function () {
         Route::post('nodes', [NodeController::class, 'store'])
             ->name('api.nodes.create');
 
-        Route::post('nodes/{slug}/content', [NodeContentController::class, 'store'])
-            ->name('api.nodes.content.create');
-
-        Route::post('nodes/{slug}/content/reorder', [NodeContentController::class, 'reorder'])
-            ->name('api.nodes.content.reorder');
-
         Route::put('nodes/{slug}', [NodeController::class, 'store'])
             ->name('api.nodes.update');
 
         Route::delete('nodes/{slug}/content', [NodeController::class, 'destroyContent'])
             ->name('api.nodes.content.delete');
+
+        Route::post('nodes/{slug}/content', [NodeContentController::class, 'store'])
+            ->name('api.nodes.content.create');
+
+        Route::put('nodes/{slug}/content', [NodeContentController::class, 'store'])
+            ->name('api.nodes.content.update');
+
+        Route::post('nodes/{slug}/content/reorder', [NodeContentController::class, 'reorder'])
+            ->name('api.nodes.content.reorder');
 
         Route::resource('media-library', MediaLibraryController::class);
     });
