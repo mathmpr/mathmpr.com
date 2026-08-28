@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+.git
+.idea
+node_modules
+vendor
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+database.sqlite
+docker-compose/mysql/data
+npm-debug.log*
+docker-compose.yml
+
