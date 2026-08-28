@@ -20,16 +20,25 @@ html, body, main, #login {
         }
 
         > div {
-            background-color: var(--bs-white);
+            color: var(--text-color);
+            background-color: var(--surface-bg-color);
+            border: 1px solid var(--lines);
             margin-bottom: 15px;
             padding: 15px;
             font-size: 13px;
             font-weight: 500;
 
             &.wrong {;
-                background-color: #ffc3c0;
-                border: 1px solid #bd6a6a;
+                color: #842029;
+                background-color: #f8d7da;
+                border-color: #f5c2c7;
                 border-radius: 3px;
+
+                .dark & {
+                    color: #fecaca;
+                    background-color: #451a1f;
+                    border-color: #7f1d1d;
+                }
             }
         }
 
@@ -37,15 +46,36 @@ html, body, main, #login {
             margin: auto;
             padding: 25px 50px;
             border-radius: 3px;
-            background-color: var(--bs-white);
+            color: var(--text-color);
+            background-color: var(--surface-bg-color);
             border: 1px solid var(--lines);
+            box-shadow: 0 18px 50px rgba(15, 23, 42, .08);
+
+            .dark & {
+                box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+            }
 
             h3 {
+                color: var(--strong-text-color);
                 margin-bottom: 25px;
             }
 
             input {
                 height: 42px;
+                color: var(--text-color);
+                background-color: var(--surface-muted-bg-color);
+                border-color: var(--lines);
+
+                &::placeholder {
+                    color: var(--muted-text-color);
+                }
+
+                &:focus {
+                    color: var(--text-color);
+                    background-color: var(--surface-muted-bg-color);
+                    border-color: var(--primary-bg);
+                    box-shadow: 0 0 0 .25rem rgba(27, 197, 189, .18);
+                }
             }
 
             label {
@@ -71,4 +101,3 @@ html, body, main, #login {
         }
     }
 }
-

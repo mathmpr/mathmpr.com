@@ -1,7 +1,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="{{ URL::to('/') }}/images/favicon.png">
+    <link rel="shortcut icon" href="/images/favicon.png">
     <title>@yield('title')</title>
     <style>
         #preload {
@@ -37,11 +37,11 @@
             background-position: center;
             min-height: 65px;
             background-repeat: no-repeat;
-            background-image: url("{{ URL::to('/') }}/images/preload.png");
+            background-image: url("/images/preload.png");
         }
 
         .dark #preload > div {
-            background-image: url("{{ URL::to('/') }}/images/dark-preload.png") !important;
+            background-image: url("/images/dark-preload.png") !important;
         }
 
         @keyframes preload {

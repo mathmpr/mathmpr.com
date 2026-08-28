@@ -1,11 +1,11 @@
 <footer>
-    <a href="/">
+    <a href="/{{ $lang }}">
         <h2 class="logo">
             <span>π</span>
             <span>MATH<br>MPR</span>
         </h2>
     </a>
-    <p>© 2022 Mathmpr. None of the rights reserved.</p>
+    <p>{{ trans('frontend.site.footer') }}</p>
     <ul>
         <li>
             <a href="https://www.linkedin.com/in/mathmpr/" target="_blank">
@@ -15,11 +15,6 @@
         <li>
             <a href="https://github.com/mathmpr" target="_blank">
                 <i class="fa-brands fa-github-alt"></i>
-            </a>
-        </li>
-        <li>
-            <a href="https://fb.com/mathmpr" target="_blank">
-                <i class="fa-brands fa-facebook-f"></i>
             </a>
         </li>
         <li>

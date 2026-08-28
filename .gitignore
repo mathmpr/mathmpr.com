@@ -23,3 +23,8 @@ Homestead.json
 .phpunit.result.cache
 database.sqlite
 /public/*/
+.idea
+
+# Docker local database volume
+/docker-compose/mysql/data/*
+!/docker-compose/mysql/data/.gitkeep

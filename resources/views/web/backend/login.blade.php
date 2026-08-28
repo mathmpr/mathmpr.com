@@ -1,7 +1,7 @@
 @extends('web.backend.dom')
 
 @section('title')
-    Login
+    {{ trans('backend.login.title') }}
 @endsection
 
 @section('head')
@@ -18,21 +18,26 @@
                     {{ trans('backend.login.wrong-credentials') }}
                 </div>
             @endif
+            @if(session()->has('login-locked'))
+                <div class="wrong">
+                    {{ session('login-locked') }}
+                </div>
+            @endif
             <form action="/{{ $lang }}/login/" method="post">
                 @csrf
-                <h3>Sign in</h3>
+                <h3>{{ trans('backend.login.sign_in') }}</h3>
                 <div class="form-group">
                     <label for="username"></label>
-                    <input class="form-control" id="username" name="username" placeholder="Username" type="text"
+                    <input class="form-control" id="username" name="username" placeholder="{{ trans('backend.login.email') }}" type="email"
                            value="{{ $username ?? '' }}" autocomplete="on">
                 </div>
                 <div class="form-group">
                     <label for="password"></label>
-                    <input class="form-control" id="password" name="password" placeholder="Password" type="password"
+                    <input class="form-control" id="password" name="password" placeholder="{{ trans('backend.login.password') }}" type="password"
                            value="{{ $password ?? '' }}">
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Login</button>
+                    <button class="btn btn-primary" type="submit">{{ trans('backend.login.submit') }}</button>
                 </div>
             </form>
         </div>

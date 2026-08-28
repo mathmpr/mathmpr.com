@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\App;
 
 /**
  * @property $title
  * @property $description
  * @property $slug
+ * @property $content
+ * @property $cover_image
  */
 class Node extends MainModel
 {
@@ -17,14 +18,7 @@ class Node extends MainModel
     protected array $translatable = [
         'title',
         'description',
+        'content',
         'slug'
     ];
-
-    public function contents()
-    {
-        return $this->hasMany(NodeContent::class)
-            ->where(['lang' => App::getLocale()])
-            ->orderBy('order', 'desc');
-    }
-
 }

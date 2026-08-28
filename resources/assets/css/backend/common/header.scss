@@ -29,6 +29,56 @@ header {
         }
     }
 
+    .backend-header-tools {
+        position: absolute;
+        left: 14px;
+        bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+    }
+
+    .backend-theme-toggle {
+        width: 34px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-color);
+        background: var(--surface-bg-color);
+        border: 1px solid var(--lines);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: color .15s ease-in-out, background .15s ease-in-out, border-color .15s ease-in-out;
+
+        &:hover,
+        &:focus {
+            color: var(--primary-bg);
+            background: var(--control-hover-bg-color);
+            outline: 0;
+        }
+    }
+
+    .backend-language-switcher {
+        display: block;
+        margin: 0;
+
+        select {
+            width: 56px;
+            height: 34px;
+            padding: 0 8px;
+            color: var(--text-color);
+            background: var(--surface-bg-color);
+            border: 1px solid var(--lines);
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 650;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+    }
+
     nav:first-child a {
         color: var(--text-color);
         display: inline-block;
@@ -88,7 +138,7 @@ header {
 
         ul:first-child + ul {
             padding: 34px 0;
-            border-left: 1px solid #fbfbfb;
+            border-left: 1px solid var(--lines);
             height: 100%;
             position: absolute;
 
@@ -162,6 +212,10 @@ header {
             width: calc(100% - 360px);
             transform: translateX(350px);
         }
+    }
+
+    .dark & .main ul:first-child + ul {
+        border-left-color: #2b2b2b;
     }
 
     @media(max-width: 991px) {
@@ -243,6 +297,17 @@ header {
 
             &:after {
                 content: '\f0c9';
+            }
+        }
+
+        .backend-header-tools {
+            left: auto;
+            right: 56px;
+            top: 15px;
+            bottom: auto;
+
+            select {
+                height: 35px;
             }
         }
 

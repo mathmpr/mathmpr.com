@@ -28,18 +28,48 @@ mix.webpackConfig({
  |
  */
 
-mix.browserSync('127.0.0.1:8000');
+mix.browserSync({
+    proxy: process.env.BROWSERSYNC_PROXY || '127.0.0.1:8000',
+    host: process.env.BROWSERSYNC_HOST || '0.0.0.0',
+    port: Number(process.env.BROWSERSYNC_PORT || 3000),
+    ui: {
+        port: Number(process.env.BROWSERSYNC_UI_PORT || 3001)
+    },
+    open: false,
+    notify: false
+});
 
-mix.js('resources/assets/js/frontend/app.js', 'public/js/frontend')
-    .sass('resources/assets/css/frontend.scss', 'public/css')
-    .sass('resources/assets/css/frontend/home.scss', 'public/css/frontend/')
-    .sass('resources/assets/css/frontend/common/video-js.min.scss', 'public/css/frontend/');
+let types = {
+    frontend: {
+        files: [
+            "frontend.scss",
+            "frontend/home.scss",
+            "frontend/single.scss"
+        ]
+    },
+    backend: {
+        files: [
+            "backend.scss",
+            "backend/dashboard.scss",
+            "backend/login.scss"
+        ]
+    }
+}
 
-
-mix.js('resources/assets/js/backend/app.js', 'public/js/backend')
-    .sass('resources/assets/css/backend.scss', 'public/css')
-    .sass('resources/assets/css/backend/dashboard.scss', 'public/css/backend/')
-    .sass('resources/assets/css/backend/login.scss', 'public/css/backend/');
+mix.js('resources/assets/js/frontend/app.js', 'public/js/frontend');
+mix.js('resources/assets/js/backend/app.js', 'public/js/backend');
+for (let type in types) {
+    let files = types[type].files;
+    files.forEach((file) => {
+        let path = file.split('/');
+        path.pop();
+        if (path.length > 0) {
+            mix.sass(`resources/assets/css/${file}`, `public/css/${path.join('/')}/`);
+        } else {
+            mix.sass(`resources/assets/css/${file}`, `public/css/`);
+        }
+    });
+}
 
 mix.copyDirectory('resources/assets/images/', 'public/images');
 

@@ -4,15 +4,20 @@ namespace App\Http\Controllers\Web\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Node;
-use App\Models\Translate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 
 class NodeController extends Controller
 {
     public function index()
     {
+        $nodes = auth()->user()
+            ->nodes()
+            ->latest()
+            ->paginate(15);
+
+        return Controller::autoDiscoverView('node/index', [
+            'nodes' => $nodes
+        ]);
     }
 
     public function create()

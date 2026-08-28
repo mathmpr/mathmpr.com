@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -33,29 +32,13 @@ class Lang
         }
         if (!$lang) {
             $lang = App::getLocale();
-            $previous = Str::random(6);
-            $request->session()->put($previous, [
-                'headers' => $request->headers->all(),
-                'method' => $request->method(),
-                'query' => $request->query->all(),
-                'cookies' => $request->cookies->all(),
-                'files' => $request->allFiles(),
-                'server' => $request->server->all(),
-                'content' => $request->all()
-            ]);
             array_shift($urlLang);
             if ($isApiCall) {
                 array_shift($urlLang);
             }
-            $redirectUrl = '/'
+            return redirect('/'
                 . ($isApiCall ? 'api/' : '')
-                . join('/', array_merge([$lang], $urlLang));
-            if (stripos($redirectUrl, '?') !== false) {
-                $redirectUrl .= '&_l=' . $previous;
-            } else {
-                $redirectUrl .= '?_l=' . $previous;
-            }
-            return redirect($redirectUrl);
+                . join('/', array_merge([$lang], $urlLang)));
         }
         return $request;
     }
@@ -65,15 +48,6 @@ class Lang
         $request = Lang::commonHandle($request);
         if (get_class($request) != Request::class) {
             return $request;
-        }
-        if ($request->get('_l') && $previous = $request->session()->get($request->get('_l'))) {
-            $request->setMethod($previous['method']);
-            $request->query->replace($previous['query']);
-            $request->cookies->replace($previous['cookies']);
-            $request->files->replace($previous['files']);
-            $request->server->replace($previous['server']);
-            $request->headers->replace($previous['headers']);
-            $request->replace($previous['content']);
         }
         return $next($request);
     }

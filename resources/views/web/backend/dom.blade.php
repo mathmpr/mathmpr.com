@@ -17,6 +17,6 @@
     @include('web.backend.common.footer')
 </main>
 <script>window.lang = '{{$lang}}'</script>
-<script>window.translations = JSON.parse('@json($translations)');</script>
+<script>window.translations = {{ Illuminate\Support\Js::from($translations) }};</script>
 </body>
 </html>

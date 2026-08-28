@@ -19,7 +19,6 @@ use App\Http\Controllers\FallbackController;
 Route::prefix('{lang?}')->group(function () {
     require __DIR__ . '/backend.php';
     require __DIR__ . '/frontend.php';
-
     require __DIR__ . '/commons.php';
 });
 

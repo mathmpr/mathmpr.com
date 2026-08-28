@@ -7,7 +7,7 @@ namespace App\Models;
 use App\Models\Auth\Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property $name
@@ -55,7 +55,7 @@ class User extends Auth
      */
     public function generateToken(): string
     {
-        return $this->createToken('LaravelAuthApp')->accessToken;
+        return $this->createToken('web-login')->plainTextToken;
     }
 
     public function nodes()

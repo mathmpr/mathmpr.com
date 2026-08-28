@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Web\Frontend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Collection;
 
 class IndexController extends Controller
 {
     public function view()
     {
-        return Controller::autoDiscoverView('home');
+        return Controller::autoDiscoverView('home', [
+            'posts' => new Collection(),
+        ]);
     }
 }

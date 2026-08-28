@@ -49,9 +49,9 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\Lang::class,
             \App\Http\Middleware\RedirectIfAuthenticated::class,
             \App\Http\Middleware\SetCookies::class,
+            \App\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-
         ],
     ];
 

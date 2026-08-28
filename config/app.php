@@ -107,6 +107,7 @@ return [
     */
     'available_locales' => [
         'en',
+        'es',
         'pt'
     ],
 
@@ -189,7 +190,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
         App\Providers\ViewServiceProvider::class
 
     ],

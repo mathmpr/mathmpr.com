@@ -1,6 +1,6 @@
 @extends('web.frontend.dom')
 
-@section('title') 404 | Mathmpr @endsection
+@section('title') {{ trans('frontend.errors.not_found_title') }} | Mathmpr @endsection
 
 @section('head')
     <link rel="stylesheet" href="/css/frontend.css">
@@ -9,6 +9,6 @@
 
 @section('main')
     <div class="container 404">
-        <h1>404</h1>
+        <h1>{{ trans('frontend.errors.not_found_title') }}</h1>
     </div>
 @overwrite

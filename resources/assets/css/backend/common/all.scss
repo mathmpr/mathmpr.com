@@ -1,10 +1,33 @@
 :root {
     --text-color: #3f4254;
+    --muted-text-color: #7e8299;
+    --strong-text-color: #212529;
     --body-bg-color: #f3f6f9;
     --header-bg-color: #ffffff;
+    --surface-bg-color: #ffffff;
+    --surface-muted-bg-color: #f8fafc;
+    --surface-hover-bg-color: #f8fafc;
+    --control-hover-bg-color: #eef3f7;
+    --code-bg-color: #f6f8fa;
+    --danger-color: #dc3545;
 
     --primary-bg: #1bc5bd;
     --lines: #e1e8ed;
+}
+
+body.dark {
+    --text-color: #d7dde8;
+    --muted-text-color: #8f9bad;
+    --strong-text-color: #f2f5f9;
+    --body-bg-color: #111827;
+    --header-bg-color: #172033;
+    --surface-bg-color: #1f2937;
+    --surface-muted-bg-color: #162132;
+    --surface-hover-bg-color: #243244;
+    --control-hover-bg-color: #2b3a4f;
+    --code-bg-color: #111827;
+    --danger-color: #f87171;
+    --lines: #334155;
 }
 
 @media (min-width: 1200px) {
@@ -13,10 +36,73 @@
     }
 }
 
-@import "media-library", "header", "footer";
+@import "header", "footer";
 
 body {
     background-color: var(--body-bg-color);
+    color: var(--text-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-bg);
+    border-color: var(--primary-bg);
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: #16aaa3;
+        border-color: #16aaa3;
+        box-shadow: 0 0 0 .25rem rgba(27, 197, 189, .25);
+    }
+
+    &:disabled,
+    &.disabled {
+        background-color: var(--primary-bg);
+        border-color: var(--primary-bg);
+        opacity: .65;
+    }
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: #bb2d3b;
+        border-color: #b02a37;
+        box-shadow: 0 0 0 .25rem rgba(220, 53, 69, .25);
+    }
+}
+
+.modal-content {
+    color: var(--text-color);
+    background-color: var(--surface-bg-color);
+    border-color: var(--lines);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
+}
+
+.modal {
+    z-index: 1065;
+}
+
+.modal-backdrop {
+    z-index: 1060;
+}
+
+.modal-header,
+.modal-footer {
+    border-color: var(--lines);
+}
+
+.modal-body {
+    color: var(--text-color);
+}
+
+body.dark .btn-close {
+    filter: invert(1) grayscale(1);
+    opacity: .72;
 }
 
 body, html, a {
@@ -34,13 +120,9 @@ body, html, a {
     margin-bottom: 0;
     user-select: none;
     cursor: pointer;
-    color: var(--header-color);
+    color: var(--text-color);
     font-size: 14px;
     text-align: left;
-
-    .dark & {
-        color: var(--dark-header-color);
-    }
 
     span {
         display: block;

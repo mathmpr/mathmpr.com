@@ -82,6 +82,88 @@ main {
             margin: auto;
         }
 
+        .post-content {
+            h2,
+            h3,
+            h4 {
+                font-family: "Playfair Display", sans-serif;
+                font-weight: 600;
+                line-height: 1.35em;
+                margin: 2em 0 .8em;
+            }
+
+            h2:first-child,
+            h3:first-child,
+            h4:first-child,
+            p:first-child {
+                margin-top: 0;
+            }
+
+            img,
+            iframe,
+            video {
+                width: 100%;
+                max-width: 100%;
+                display: block;
+                margin: var(--greater-margin-bt) auto;
+            }
+
+            iframe {
+                aspect-ratio: 16 / 9;
+                height: auto;
+                border: 0;
+            }
+
+            blockquote {
+                margin: 2em 0;
+                padding-left: 1.25em;
+                border-left: 4px solid #e1e8ed;
+                color: inherit;
+
+                .dark & {
+                    border-left-color: #e1e8ed30;
+                }
+
+                p {
+                    margin-bottom: .8em;
+                }
+            }
+
+            pre {
+                margin: 2em 0;
+                padding: 1.25em;
+                overflow-x: auto;
+                background: #f6f8fa;
+                border: 1px solid #e1e8ed;
+                border-radius: 5px;
+
+                .dark & {
+                    background: #1f2937;
+                    border-color: #e1e8ed30;
+                }
+            }
+
+            code {
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            }
+
+            table {
+                width: 100%;
+                margin: 2em 0;
+                border-collapse: collapse;
+            }
+
+            th,
+            td {
+                padding: .75em;
+                border: 1px solid #e1e8ed;
+
+                .dark & {
+                    border-color: #e1e8ed30;
+                }
+            }
+        }
+
         p {
             font-size: 1.1rem;
             line-height: 2em;
@@ -162,6 +244,8 @@ main {
         .similar img {
             width: 100%;
             height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
         }
 
         .similar .owl-carousel {

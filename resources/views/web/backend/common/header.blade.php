@@ -2,7 +2,7 @@
     <nav>
         <ul>
             <li>
-                <a class="for-logo" href="/{{ $lang }}/dashboard/">
+                <a class="for-logo" href="/{{ $lang }}/dashboard/nodes/">
                     <h1 class="logo">
                         <span>π</span>
                     </h1>
@@ -13,7 +13,7 @@
     <nav class="main">
         <ul>
             <li>
-                <a class="for-logo" href="/{{ $lang }}/dashboard">
+                <a class="for-logo" href="/{{ $lang }}/dashboard/nodes">
                     <h1 class="logo">
                         <span>π</span>
                     </h1>
@@ -33,7 +33,7 @@
                 <li>
                     <a href="#">
                         <i class="fa-solid fa-chevron-right"></i>
-                        Nodes
+                        {{ trans('backend.menu.nodes') }}
                     </a>
                     <ul>
                         <li>
@@ -47,11 +47,23 @@
                 <li>
                     <a href="/{{ $lang }}/logout">
                         <i class="fa-solid fa-sign-out"></i>
-                        Logout
+                        {{ trans('backend.menu.logout') }}
                     </a>
                 </li>
             @endauth
         </ul>
     </nav>
+    <div class="backend-header-tools">
+        <button id="backend-theme-toggle" class="backend-theme-toggle" type="button" aria-label="{{ trans('backend.theme.toggle') }}">
+            <i class="fa-solid {{ isset($_COOKIE['skin']) && $_COOKIE['skin'] === 'dark' ? 'fa-sun' : 'fa-moon' }}"></i>
+        </button>
+        <label class="backend-language-switcher" for="backend-language">
+            <select id="backend-language" aria-label="{{ trans('backend.editor.language') }}">
+                @foreach(config('app.available_locales') as $locale)
+                    <option value="{{ $locale }}" @selected($locale === $lang)>{{ strtoupper($locale) }}</option>
+                @endforeach
+            </select>
+        </label>
+    </div>
     <span class="toggle"></span>
 </header>

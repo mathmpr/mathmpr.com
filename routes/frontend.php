@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\Frontend\IndexController;
+use App\Http\Controllers\Web\Frontend\DeepController;
 use App\Http\Controllers\Web\Frontend\NodeController;
 use App\Http\Controllers\Web\Backend\LoginController;
 
@@ -14,5 +15,8 @@ Route::get('/login', [LoginController::class, 'view'])
 
 Route::post('/login', [LoginController::class, 'login'])
     ->name('backend.login.perform');
+
+Route::get('/deep', [DeepController::class, 'view'])
+    ->name('frontend.deep');
 
 Route::get('/{slug}', [NodeController::class, 'view']);

@@ -22,9 +22,12 @@ let domReady = () => {
         }
     });
 
-    document.querySelector('#header .search i ').addEventListener('click', (event) => {
-        event.target.closest('.search').classList.toggle('show');
-    });
+    const languageSwitcher = document.querySelector('.frontend-language-switcher');
+    if (languageSwitcher) {
+        languageSwitcher.addEventListener('change', (event) => {
+            window.location.href = event.target.value;
+        });
+    }
 
     document.querySelector('#header .col span:last-child').addEventListener('click', (event) => {
         event.target.previousElementSibling.classList.toggle('show');
@@ -143,5 +146,3 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
         domReady();
     });
 }
-
-
