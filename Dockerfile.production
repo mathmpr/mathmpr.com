@@ -9,6 +9,8 @@ COPY resources ./resources
 COPY public ./public
 COPY webpack.mix.js ./
 RUN npm run production
+RUN mkdir -p public/mathmpr.com/fonts \
+    && cp resources/assets/webfonts/fa-* public/mathmpr.com/fonts/
 
 FROM php:8.3-cli AS vendor
 
@@ -56,4 +58,3 @@ RUN chmod +x /usr/local/bin/start-container \
 EXPOSE 8080
 
 CMD ["start-container"]
-
