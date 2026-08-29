@@ -361,6 +361,20 @@ main {
                     width: 100%;
                     height: auto;
                 }
+
+                .author-nodes {
+                    row-gap: 20px;
+
+                    a {
+                        display: block;
+                    }
+
+                    img {
+                        aspect-ratio: 1 / 1;
+                        height: auto;
+                        object-fit: cover;
+                    }
+                }
             }
         }
     }

@@ -154,9 +154,9 @@
                     @if($similar->isNotEmpty())
                         <div class="col-lg-6">
                             <h3>{{ trans('frontend.single.author_nodes') }}</h3>
-                            <div class="row">
+                            <div class="row author-nodes">
                                 @foreach($similar->take(3) as $similarNode)
-                                    <div class="col-lg-4">
+                                    <div class="col-4">
                                         <a href="/{{ $lang }}/{{ $similarNode->slug }}">
                                             <img src="{{ $similarNode->cover_image }}" alt="{{ $similarNode->title }}" width="800" height="800" decoding="async" loading="lazy">
                                         </a>
