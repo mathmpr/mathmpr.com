@@ -12,7 +12,7 @@ RUN npm run production
 RUN mkdir -p public/mathmpr.com/fonts \
     && cp resources/assets/webfonts/fa-* public/mathmpr.com/fonts/
 
-FROM php:8.3-cli AS vendor
+FROM php:8.3.36-cli AS vendor
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git unzip libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev libonig-dev libxml2-dev libzip-dev \
@@ -34,7 +34,7 @@ COPY app ./app
 
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
-FROM php:8.3-fpm
+FROM php:8.3.36-fpm
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends nginx libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev libonig-dev libxml2-dev libzip-dev \
